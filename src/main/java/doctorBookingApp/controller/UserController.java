@@ -54,7 +54,7 @@
      })
 
 
-     @PostMapping("/confirm")
+     @GetMapping("/confirm")
      public ResponseEntity<?> confirmUser(@RequestParam String confirmationCode) {
          try {
              registrationUserService.confirmUser(confirmationCode);
@@ -62,16 +62,17 @@
          } catch (RestException e) {
              return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Код не найден или срок его действия истек");
          }
+
      }
 
      //@RestController возвращает данные непосредственно в виде JSON/XML, а не перенаправляет на HTML страницу.
      //Для перенаправления на HTML страницу лучше использовать @Controller.  ???????????? надо ли менять
-
-     @GetMapping("/confirm")
-     public String confirmUserPage(@RequestParam String confirmationCode, Model model) {
-         model.addAttribute("confirmationCode", confirmationCode);
-         return "confirm"; // Имя HTML страницы подтверждения
-     }
+//
+//     @GetMapping("/confirm")
+//     public String confirmUserPage(@RequestParam String confirmationCode, Model model) {
+//         model.addAttribute("confirmationCode", confirmationCode);
+//         return "confirm"; // Имя HTML страницы подтверждения
+//     }
 
 
      //ПОЛУЧЕНИЕ ИНФОРМАЦИИ О ПОЛЬЗОВАТЕЛЕ

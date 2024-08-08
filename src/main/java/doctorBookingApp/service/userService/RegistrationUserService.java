@@ -49,10 +49,17 @@ public class RegistrationUserService {
                 .role(Role.PATIENT)
                 .state(State.NOT_CONFIRMED)
                 .build();
+
         userRepository.save(user);
 
        String codeValue = confirmationCodeService.createAndSaveConfirmationCode(user);
+
+        // Create and save confirmation code entity
+//        ConfirmationCode confirmationCode = new ConfirmationCode(codeValue, LocalDateTime.now().plusDays(1), user);
+//        confirmationCodeRepository.save(confirmationCode);
+
        mailService.sendConfirmationEmailWithHTML(user, codeValue);// отправка письма
+
 
         return UserDTO.from(user);
 

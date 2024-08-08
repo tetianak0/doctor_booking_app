@@ -3,7 +3,7 @@ package doctorBookingApp.controller;
 
 import doctorBookingApp.dto.DoctorProfileDTO;
 import doctorBookingApp.service.DoctorProfileService;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
