@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "time_slots")
+@Table(name = "timeslots")
 public class TimeSlot {
 
     @Id
@@ -31,4 +31,6 @@ public class TimeSlot {
     private TypeOfInsurance insurance;
 
     private Boolean isBooked;
+
+
 }

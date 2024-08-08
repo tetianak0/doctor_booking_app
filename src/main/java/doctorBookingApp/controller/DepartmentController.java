@@ -29,7 +29,7 @@ public class DepartmentController {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PostMapping("/add")
+    @PostMapping("/add") //работает
     public ResponseEntity<DepartmentDTO> addDepartment(@RequestBody DepartmentDTO departmentDTO) {
         DepartmentDTO createdDepartment = departmentService.addDepartment(departmentDTO);
         return ResponseEntity.ok(createdDepartment);

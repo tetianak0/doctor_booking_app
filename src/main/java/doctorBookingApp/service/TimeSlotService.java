@@ -12,7 +12,8 @@ public interface TimeSlotService {
     TimeSlot addTimeSlot(TimeSlotDTO timeSlotDTO);
     TimeSlot updateTimeSlot(Long id, TimeSlotDTO timeSlotDTO);
     void deleteTimeSlot(Long id);
-    List<TimeSlot> getTimeSlotsByDoctor(Long doctor_id);
+
+    List<TimeSlot> getTimeSlotsByDoctor(TimeSlotDTO timeSlotDTO);
     List<TimeSlot> getTimeSlotsByInsurance(TypeOfInsurance insurance);
     List<TimeSlot> getTimeSlotsByDateTime(LocalDateTime dateTime);
     Optional<TimeSlot> getTimeSlotById(Long id);

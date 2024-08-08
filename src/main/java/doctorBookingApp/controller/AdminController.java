@@ -9,10 +9,10 @@ import doctorBookingApp.service.TimeSlotService;
 
 import doctorBookingApp.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate;
+
 import java.util.List;
 
 
@@ -25,7 +25,6 @@ public class AdminController {
 
     @Autowired
     private final TimeSlotService timeSlotService;
-
 
 
     public AdminController(TimeSlotService timeSlotService, UserService userService) {
@@ -61,26 +60,34 @@ public class AdminController {
         return ResponseEntity.noContent().build();
     }
 
-    // Добавление таймслота
-    @PostMapping("/timeslots")
-    public ResponseEntity<TimeSlot> addTimeSlot(@RequestBody TimeSlotDTO timeSlotDTO) {
-        TimeSlot addedTimeSlot = timeSlotService.addTimeSlot(timeSlotDTO);
-        return ResponseEntity.ok(addedTimeSlot);
+
+    @PostMapping("/timeslots")//ПРОВЕРЕН
+    public TimeSlot addTimeSlot(@RequestBody TimeSlotDTO timeSlotDTO) {
+        try {
+            return timeSlotService.addTimeSlot(timeSlotDTO);
+        } catch (Exception e) {
+            // В случае ошибки возвращаем null или пустое значение
+            return null;
+        }
     }
 
+    @PutMapping("/timeslots/{id}")//ПРОВЕРЕН
+    public TimeSlot updateTimeSlot(@PathVariable Long id, @RequestBody TimeSlotDTO timeSlotDTO) {
+        try {
+            return timeSlotService.updateTimeSlot(id, timeSlotDTO);
+        } catch (Exception e) {
 
-    // Редактирование таймслота
-    @PutMapping("/timeslots/{id}")
-    public ResponseEntity<TimeSlot> editTimeSlot(@PathVariable Long id, @RequestBody TimeSlotDTO timeSlotDTO) throws RestException {
-        TimeSlot updatedTimeSlot = timeSlotService.updateTimeSlot(id, timeSlotDTO);
-        return ResponseEntity.ok(updatedTimeSlot);
+            return null;
+        }
     }
 
-    // Удаление таймслота
-    @DeleteMapping("/timeslots/{id}")
-    public ResponseEntity<Void> deleteTimeSlot(@PathVariable Long id) throws RestException {
-        timeSlotService.deleteTimeSlot(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/timeslots/{id}")//проверен
+    public void deleteTimeSlot(@PathVariable Long id) {
+        try {
+            timeSlotService.deleteTimeSlot(id);
+        } catch (Exception e) {
+            System.out.println("Error deleting time slot: ");
+        }
     }
 
     // Поиск пользователей по доктору

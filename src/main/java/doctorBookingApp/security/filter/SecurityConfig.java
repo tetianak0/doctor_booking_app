@@ -45,8 +45,10 @@ public class SecurityConfig {
                         .requestMatchers("/users/**").permitAll()
                         .requestMatchers("/departments/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/timeslots/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").permitAll() //??
                         .requestMatchers("/api/users/**").hasAnyRole("PATIENT","ADMIN")
                         .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint()))

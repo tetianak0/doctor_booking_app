@@ -23,6 +23,7 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     @Autowired
     private final DoctorProfileRepository doctorProfileRepository;
 
+
     public TimeSlotServiceImpl(TimeSlotRepository timeSlotRepository, DoctorProfileRepository doctorProfileRepository) {
         this.timeSlotRepository = timeSlotRepository;
         this.doctorProfileRepository = doctorProfileRepository;
@@ -30,15 +31,10 @@ public class TimeSlotServiceImpl implements TimeSlotService {
 
     @Override
     public TimeSlot addTimeSlot(TimeSlotDTO timeSlotDTO) {
-        DoctorProfile doctor = doctorProfileRepository.findById(timeSlotDTO.getDoctorId())
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
 
-        TimeSlot timeSlot = TimeSlot.builder()
-                .doctor(doctor)
-                .dateTime(timeSlotDTO.getDateTime())
-                .insurance(timeSlotDTO.getInsurance())
-                .isBooked(timeSlotDTO.getIsBooked())
-                .build();
+        TimeSlot timeSlot = new TimeSlot();
+        timeSlot.setId(timeSlotDTO.getDoctorId());
+        timeSlot.setDateTime(timeSlotDTO.getDateTime());
 
         return timeSlotRepository.save(timeSlot);
     }
@@ -61,12 +57,15 @@ public class TimeSlotServiceImpl implements TimeSlotService {
 
     @Override
     public void deleteTimeSlot(Long id) {
+
         timeSlotRepository.deleteById(id);
     }
 
+
     @Override
-    public List<TimeSlot> getTimeSlotsByDoctor(Long doctor_id) {
-        return timeSlotRepository.findByDoctorId(doctor_id);
+    public List<TimeSlot> getTimeSlotsByDoctor(TimeSlotDTO timeSlotDTO) {
+        Long doctorId = timeSlotDTO.getDoctorId();
+        return timeSlotRepository.findByDoctorId(doctorId);
     }
 
     @Override
@@ -81,6 +80,7 @@ public class TimeSlotServiceImpl implements TimeSlotService {
 
     @Override
     public Optional<TimeSlot> getTimeSlotById(Long id) {
+
         return timeSlotRepository.findById(id);
     }
 }
