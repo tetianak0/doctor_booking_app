@@ -5,7 +5,7 @@ import doctorBookingApp.entity.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.mail.SimpleMailMessage;
+//import org.springframework.mail.SimpleMailMessage; //для замутированного метода
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
