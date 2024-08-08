@@ -10,6 +10,7 @@ import doctorBookingApp.repository.TimeSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,8 +75,8 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     }
 
     @Override
-    public List<TimeSlot> getTimeSlotsByDateTime(Long date_time) {
-        return timeSlotRepository.findByDateTime(date_time);
+    public List<TimeSlot> getTimeSlotsByDateTime(LocalDateTime dateTime) {
+        return timeSlotRepository.findByDateTime(dateTime);
     }
 
     @Override

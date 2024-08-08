@@ -5,6 +5,8 @@ import doctorBookingApp.entity.enums.TypeOfInsurance;
 import doctorBookingApp.service.TimeSlotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,8 +43,8 @@ public class TimeSlotController {
     }
 
     @GetMapping("/date/{date_time}")
-    public List<TimeSlot> getTimeSlotsByDateTime(@PathVariable Long date_time) {
-        return timeSlotService.getTimeSlotsByDateTime(date_time);
+    public List<TimeSlot> getTimeSlotsByDateTime(@PathVariable LocalDateTime dateTime) {
+        return timeSlotService.getTimeSlotsByDateTime(dateTime);
     }
 
     @GetMapping("/{id}")

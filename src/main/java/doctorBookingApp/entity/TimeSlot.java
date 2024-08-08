@@ -3,6 +3,8 @@ import doctorBookingApp.entity.enums.TypeOfInsurance;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
@@ -23,7 +25,7 @@ public class TimeSlot {
     @JoinColumn(name = "doctor_id", referencedColumnName = "id")
     private DoctorProfile doctor;
 
-    private Long dateTime;
+    private LocalDateTime dateTime;
 
     @Enumerated(EnumType.STRING)
     private TypeOfInsurance insurance;

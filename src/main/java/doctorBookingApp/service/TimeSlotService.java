@@ -4,6 +4,7 @@ import doctorBookingApp.dto.TimeSlotDTO;
 import doctorBookingApp.entity.TimeSlot;
 import doctorBookingApp.entity.enums.TypeOfInsurance;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,6 @@ public interface TimeSlotService {
     void deleteTimeSlot(Long id);
     List<TimeSlot> getTimeSlotsByDoctor(Long doctor_id);
     List<TimeSlot> getTimeSlotsByInsurance(TypeOfInsurance insurance);
-    List<TimeSlot> getTimeSlotsByDateTime(Long date_time);
+    List<TimeSlot> getTimeSlotsByDateTime(LocalDateTime dateTime);
     Optional<TimeSlot> getTimeSlotById(Long id);
 }
