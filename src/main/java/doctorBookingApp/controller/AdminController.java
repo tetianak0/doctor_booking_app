@@ -10,7 +10,6 @@ import doctorBookingApp.service.TimeSlotService;
 import doctorBookingApp.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,27 +38,24 @@ public class AdminController {
 //        return ResponseEntity.ok(users);
 //    }
 
+
     // Поиск пользователя по ID
-    @GetMapping("/users/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) throws RestException {
-        UserDTO user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
+    @GetMapping("/users/{id}")//работает
+    public UserDTO getUserById(@PathVariable Long id) throws RestException {
+        return userService.getUserById(id);
     }
 
-    // Обновление пользователя
-    @PutMapping("/users/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) throws RestException {
-        UserDTO updatedUser = userService.editUser(id, userDTO);
-        return ResponseEntity.ok(updatedUser);
+    // Обновление пользователя по ID
+    @PutMapping("/users/{id}")//работает
+    public UserDTO updateUserById(@PathVariable Long id, @RequestBody UserDTO userDTO) throws RestException {
+        return userService.editUser(id, userDTO);
     }
 
-    // Удаление пользователя
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) throws RestException {
+    // Удаление пользователя по ID
+    @DeleteMapping("/users/{id}")// работает
+    public void deleteUserById(@PathVariable Long id) throws RestException {
         userService.deleteUserById(id);
-        return ResponseEntity.noContent().build();
     }
-
 
     @PostMapping("/timeslots")//ПРОВЕРЕН
     public TimeSlot addTimeSlot(@RequestBody TimeSlotDTO timeSlotDTO) {
@@ -90,13 +86,7 @@ public class AdminController {
         }
     }
 
-    // Поиск пользователей по доктору
-    @GetMapping("/users/doctor-profiles/{Id}")
-    public ResponseEntity<List<UserDTO>> findUsersByDoctor(@PathVariable Long doctorId) throws RestException {
-//        List<UserDTO> users = userService.findUsersByDoctor(doctorId);
-//        return ResponseEntity.ok(users);
-        return null;
-    }
+
 
 //    // Поиск пользователей по дате
 //    @GetMapping("/users/search/date")
