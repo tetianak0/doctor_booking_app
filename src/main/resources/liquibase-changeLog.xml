@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Создание таблицы departments -->
+    <changeSet id="create.table.department" author="author">
+        <createTable tableName="departments">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title_department" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Вставка данных в таблицу departments -->
+    <changeSet id="insert.default.department" author="author">
+        <insert tableName="departments">
+            <column name="title_department" value="Cardiology_department"/>
+        </insert>
+    </changeSet>
+
+    <!-- Создание таблицы doctor_profile -->
+    <changeSet id="create.table.doctor_profile" author="author">
+        <createTable tableName="doctor_profile">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="department_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="specialization" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="experience_years" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="review_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Создание таблицы account -->
+    <changeSet id="create.table.account" author="author">
+        <createTable tableName="account">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="firstname" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sur_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birth_date" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(14)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="confirmation_code" type="VARCHAR(200)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Вставка пользователей в таблицу account -->
+    <changeSet id="insert.default.users" author="yourname">
+        <insert tableName="account">
+            <column name="firstname" value="John"/>
+            <column name="sur_name" value="Doe"/>
+            <column name="birth_date" value="1990-01-01"/>
+            <column name="phone_number" value="1234567890"/>
+            <column name="email" value="john.doe@example.com"/>
+            <column name="password" value="hashedpassword1"/>
+            <column name="role" value="ADMIN"/>
+            <column name="state" value="CONFIRMED"/>
+            <column name="confirmation_code" value="dfthsrm579ojhmghd"/>
+
+        </insert>
+
+        <insert tableName="account">
+            <column name="firstname" value="User"/>
+            <column name="sur_name" value="Smith"/>
+            <column name="birth_date" value="1992-02-02"/>
+            <column name="phone_number" value="0987654321"/>
+            <column name="email" value="jane.smith@example.com"/>
+            <column name="password" value="password"/>
+            <column name="role" value="PATIENT"/>
+            <column name="state" value="CONFIRMED"/>
+            <column name="confirmation_code" value="3709-07gbnl-[]y76z"/>
+        </insert>
+    </changeSet>
+
+    <!-- Добавление внешнего ключа в таблицу doctor_profile -->
+    <changeSet id="add.foreign.key.to.doctor_profile" author="author">
+        <addForeignKeyConstraint baseTableName="doctor_profile" baseColumnNames="department_id"
+                                 constraintName="fk_doctor_profile_department_id"
+                                 referencedTableName="departments" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Вставка данных в таблицу doctor_profile -->
+    <changeSet id="insert.default.doctor_profile" author="author">
+        <insert tableName="doctor_profile">
+            <column name="first_name" value="doctorName1"/>
+            <column name="last_name" value="doctorLastname1"/>
+            <column name="department_id" value="1"/>
+            <column name="specialization" value="Cardiology"/>
+            <column name="experience_years" value="10"/>
+            <column name="review_id" value="1"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
