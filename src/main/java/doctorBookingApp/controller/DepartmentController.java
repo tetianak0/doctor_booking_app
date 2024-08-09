@@ -34,4 +34,5 @@ public class DepartmentController {
         DepartmentDTO createdDepartment = departmentService.addDepartment(departmentDTO);
         return ResponseEntity.ok(createdDepartment);
     }
+
 }

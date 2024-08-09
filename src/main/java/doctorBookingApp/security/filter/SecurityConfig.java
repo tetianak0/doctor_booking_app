@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,14 +43,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/hallo/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/users/**").permitAll()
-                        .requestMatchers("/departments/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/users/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/departments/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/timeslots/**").permitAll()
-                        .requestMatchers("/api/public/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/admin/**").permitAll() //??
-                        .requestMatchers("/api/users/**").hasAnyRole("PATIENT","ADMIN")
+//                      .requestMatchers("/api/public/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
+//                        .requestMatchers("/api/users/**").hasAnyRole("PATIENT","ADMIN")
                         .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

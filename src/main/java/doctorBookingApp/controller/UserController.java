@@ -124,7 +124,7 @@
 
      })
 
-     @PutMapping("/{email}")
+     @GetMapping("/{email}")
      public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email) throws RestException {
          return ResponseEntity.ok(userService.getUserByEmail(email));
      }
