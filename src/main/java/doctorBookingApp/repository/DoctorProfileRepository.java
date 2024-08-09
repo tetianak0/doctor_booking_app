@@ -1,6 +1,7 @@
 package doctorBookingApp.repository;
 
 
+import doctorBookingApp.dto.DoctorProfileDTO;
 import doctorBookingApp.entity.DoctorProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

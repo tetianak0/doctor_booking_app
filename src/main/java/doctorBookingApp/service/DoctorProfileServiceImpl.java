@@ -8,6 +8,7 @@ import doctorBookingApp.repository.DoctorProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,12 +66,29 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
                 .collect(Collectors.toList());
     }
 
-    @Override
+    /*@Override
     public List<DoctorProfileDTO> findByDepartmentId(Long departmentId) {
         return doctorProfileRepository.findByDepartmentId(departmentId).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
+    }*/
+
+    public List<DoctorProfileDTO> findByDepartmentId(Long departmentId) {
+        // Получаем список профилей врачей по идентификатору отдела
+        List<DoctorProfile> doctorProfiles = doctorProfileRepository.findByDepartmentId(departmentId);
+
+        // Проверяем, что список не пустой и не null
+        if (doctorProfiles == null || doctorProfiles.isEmpty()) {
+            return Collections.emptyList(); // Возвращаем пустой список, если ничего не найдено
+        }
+
+        // Преобразуем список сущностей в список DTO
+        return doctorProfiles.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
+
+
 
     private DoctorProfile convertToEntity(DoctorProfileDTO doctorProfileDTO) {
         Department department = departmentRepository.findById(doctorProfileDTO.getDepartmentId())
@@ -86,7 +104,7 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
                 .build();
     }
 
-    private DoctorProfileDTO convertToDTO(DoctorProfile doctorProfile) {
+    /*private DoctorProfileDTO convertToDTO(DoctorProfile doctorProfile) {
         return DoctorProfileDTO.builder()
                 .id(doctorProfile.getId())
                 .firstName(doctorProfile.getFirstName())
@@ -96,5 +114,16 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
                 .experienceYears(doctorProfile.getExperienceYears())
                 .reviewId(doctorProfile.getReviewId())
                 .build();
+    }*/
+
+    private DoctorProfileDTO convertToDTO(DoctorProfile doctorProfile) {
+        // Конвертация из модели DoctorProfile в DTO
+        DoctorProfileDTO dto = new DoctorProfileDTO();
+        dto.setId(doctorProfile.getId());
+        dto.setFirstName(doctorProfile.getFirstName());
+        dto.setLastName(doctorProfile.getLastName());
+        dto.setDepartmentId(doctorProfile.getDepartment().getId());
+        // Добавьте другие поля по необходимости
+        return dto;
     }
 }
