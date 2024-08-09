@@ -51,10 +51,15 @@ public class DoctorProfileController {
         return ResponseEntity.ok(doctorProfileService.getAllDoctorProfiles());
     }
 
-    @GetMapping(value="api/department/{departmentId}")
+    /*@GetMapping(value="api/department/{departmentId}")//проверить
     public ResponseEntity<List<DoctorProfileDTO>> findByDepartmentId(@PathVariable Long departmentId) {
         return ResponseEntity.ok(doctorProfileService.findByDepartmentId(departmentId));
+    }*/
+
+
+    @GetMapping("/department/{departmentId}")
+    public List<DoctorProfileDTO> findByDepartmentId(@PathVariable Long departmentId) {
+        return doctorProfileService.findByDepartmentId(departmentId);
     }
-    
 
 }
