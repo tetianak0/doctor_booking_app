@@ -1,11 +1,10 @@
 package doctorBookingApp.repository;
 
 import doctorBookingApp.entity.ConfirmationCode;
-import doctorBookingApp.entity.ConfirmationCode;
 import doctorBookingApp.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-
+import java.util.List;
 import java.util.Optional;
 
 
@@ -27,12 +26,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
 
     Optional<User> findFirstByCodesContains(ConfirmationCode confirmationCode);
-
-
-
-
-
-
 
 
 
