@@ -7,6 +7,9 @@ import doctorBookingApp.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
@@ -26,4 +29,16 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         return new DepartmentDTO(savedDepartment.getId(), savedDepartment.getTitleDepartment());
     }
+
+    @Override
+    public List<DepartmentDTO> getAllDepartments() {
+        // Получить все департаменты из базы данных
+        List<Department> departments = departmentRepository.findAll();
+
+        // Преобразовать сущности в DTO и вернуть список
+        return departments.stream()
+                .map(department -> new DepartmentDTO(department.getId(), department.getTitleDepartment()))
+                .collect(Collectors.toList());
+    }
+
 }
