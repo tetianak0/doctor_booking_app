@@ -3,6 +3,7 @@
  import doctorBookingApp.dto.StandardResponseDto;
  import doctorBookingApp.dto.usersDTO.NewUserDTO;
  import doctorBookingApp.dto.usersDTO.UserDTO;
+ import doctorBookingApp.entity.User;
  import doctorBookingApp.exeption.RestException;
  import doctorBookingApp.service.userService.ConfirmationCodeService;
  import doctorBookingApp.service.userService.RegistrationUserService;
@@ -14,10 +15,13 @@
  import io.swagger.v3.oas.annotations.responses.ApiResponses;
  import jakarta.mail.MessagingException;
  import lombok.RequiredArgsConstructor;
+ import org.springframework.beans.factory.annotation.Autowired;
  import org.springframework.http.HttpStatus;
  import org.springframework.http.ResponseEntity;
  import org.springframework.ui.Model;
  import org.springframework.web.bind.annotation.*;
+
+ import java.util.List;
 
  @RestController
  @RequiredArgsConstructor
@@ -25,7 +29,6 @@
  public class UserController {
 
      private final UserService userService;
-     private final ConfirmationCodeService confirmationCodeService;
      private final RegistrationUserService registrationUserService;
 
 
@@ -65,35 +68,7 @@
 
      }
 
-     //@RestController возвращает данные непосредственно в виде JSON/XML, а не перенаправляет на HTML страницу.
-     //Для перенаправления на HTML страницу лучше использовать @Controller.  ???????????? надо ли менять
-//
-//     @GetMapping("/confirm")
-//     public String confirmUserPage(@RequestParam String confirmationCode, Model model) {
-//         model.addAttribute("confirmationCode", confirmationCode);
-//         return "confirm"; // Имя HTML страницы подтверждения
-//     }
-
-
-     //ПОЛУЧЕНИЕ ИНФОРМАЦИИ О ПОЛЬЗОВАТЕЛЕ
-
-     @Operation(summary = "Получение информации о пользователе по ID")
-     @ApiResponses(value = {
-             @ApiResponse(responseCode = "200", description = "Информация о пользователе",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserDTO.class))),
-             @ApiResponse(responseCode = "404", description = "Пользователь не найден.",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = StandardResponseDto.class)))
-
-     })
-
-     @GetMapping("/{userId}")
-     public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) throws RestException {
-         return ResponseEntity.ok(userService.getUserById(userId));
-     }
-
-
+     //ОБНОВЛЕНИЕ ИНФОРМАЦИИ О ПОЛЬЗОВАТЕЛЕ
 
      @Operation(summary = "Обновление информации о пользователе")
      @ApiResponses(value = {
@@ -113,6 +88,25 @@
      }
 
 
+     //ПОЛУЧЕНИЕ ИНФОРМАЦИИ О ПОЛЬЗОВАТЕЛЕ
+
+     @Operation(summary = "Получение информации о пользователе по ID")
+     @ApiResponses(value = {
+             @ApiResponse(responseCode = "200", description = "Информация о пользователе",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserDTO.class))),
+             @ApiResponse(responseCode = "404", description = "Пользователь не найден.",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = StandardResponseDto.class)))
+
+     })
+
+     @GetMapping("/id/{userId}")
+     public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) throws RestException {
+         return ResponseEntity.ok(userService.getUserById(userId));
+     }
+
+
      @Operation(summary = "Получение информации о пользователе по email")
      @ApiResponses(value = {
              @ApiResponse(responseCode = "200", description = "Информация о пользователе",
@@ -124,7 +118,7 @@
 
      })
 
-     @GetMapping("/{email}")
+     @GetMapping("/email/{email}")
      public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email) throws RestException {
          return ResponseEntity.ok(userService.getUserByEmail(email));
      }
@@ -142,11 +136,16 @@
 
      })
 
-     @PutMapping("/{phoneNumber}")
+     @GetMapping("/phone/{phoneNumber}")
      public ResponseEntity<UserDTO> getUserByPhoneNumber(@PathVariable String phoneNumber) throws RestException {
          return ResponseEntity.ok(userService.getUserByPhoneNumber(phoneNumber));
      }
 
+
+     @GetMapping
+     public List<User> getAllUsers() {
+         return userService.getAllUsers();
+     }
 
         //УДАЛЕНИЕ ПОЛЬЗОВАТЕЛЯ
 
