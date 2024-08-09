@@ -43,11 +43,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/hallo/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/users/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/departments/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/users/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/departments/**").permitAll()
                         .requestMatchers("/timeslots/**").permitAll()
-//                      .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
 //                        .requestMatchers("/api/users/**").hasAnyRole("PATIENT","ADMIN")

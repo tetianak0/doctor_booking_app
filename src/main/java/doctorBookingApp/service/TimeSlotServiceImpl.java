@@ -32,9 +32,17 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     @Override
     public TimeSlot addTimeSlot(TimeSlotDTO timeSlotDTO) {
 
+        // Найти профиль доктора по ID
+        DoctorProfile doctor = doctorProfileRepository.findById(timeSlotDTO.getDoctorId())
+                .orElseThrow(() -> new IllegalArgumentException("Doctor not found with ID: " + timeSlotDTO.getDoctorId()));
+
+        // Создать новый TimeSlot и установить свойства
         TimeSlot timeSlot = new TimeSlot();
-        timeSlot.setId(timeSlotDTO.getDoctorId());
+        timeSlot.setDoctor(doctor);
         timeSlot.setDateTime(timeSlotDTO.getDateTime());
+        timeSlot.setInsurance(timeSlotDTO.getInsurance());
+        // Устанавливаем isBooked по умолчанию как false
+        timeSlot.setIsBooked(false);
 
         return timeSlotRepository.save(timeSlot);
     }

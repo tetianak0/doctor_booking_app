@@ -46,17 +46,13 @@ public class RegistrationUserService {
                 .phoneNumber(newUser.getPhoneNumber())
                 .email(newUser.getEmail())
                 .password(passwordEncoder.encode(newUser.getPassword()))
-                .role(Role.PATIENT)
-                .state(State.NOT_CONFIRMED)
+                .role(Role.ADMIN)
+                .state(State.CONFIRMED)
                 .build();
 
         userRepository.save(user);
 
        String codeValue = confirmationCodeService.createAndSaveConfirmationCode(user);
-
-        // Create and save confirmation code entity
-//        ConfirmationCode confirmationCode = new ConfirmationCode(codeValue, LocalDateTime.now().plusDays(1), user);
-//        confirmationCodeRepository.save(confirmationCode);
 
        mailService.sendConfirmationEmailWithHTML(user, codeValue);// отправка письма
 
