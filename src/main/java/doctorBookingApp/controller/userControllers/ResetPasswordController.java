@@ -69,31 +69,31 @@ public class ResetPasswordController {
     }
 
 
-//    @Operation(summary = "Подтверждение обновления пароля")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "Пароль успешно обновлен.",
-//                    content = @Content(mediaType = "application/json",
-//                            schema = @Schema(implementation = UserDTO.class))),
-//            @ApiResponse(responseCode = "400", description = "Ошибка при обновлении пароля.",
-//                    content = @Content(mediaType = "application/json",
-//                            schema = @Schema(implementation = StandardResponseDto.class)))
-//
-//    })
+   @Operation(summary = "Подтверждение обновления пароля")
+   @ApiResponses(value = {
+           @ApiResponse(responseCode = "200", description = "Пароль успешно обновлен.",
+                   content = @Content(mediaType = "application/json",
+                           schema = @Schema(implementation = UserDTO.class))),
+           @ApiResponse(responseCode = "400", description = "Ошибка при обновлении пароля.",
+                   content = @Content(mediaType = "application/json",
+                           schema = @Schema(implementation = StandardResponseDto.class)))
+
+   })
 
 
-//  @PostMapping("/reset-password")
-//   public ResponseEntity<String> resetPassword(@RequestBody PasswordResetRequestDTO passwordResetRequestDTO) throws MessagingException {
-//
-//        boolean isReset = resetPasswordService.updatePassword(passwordResetDTO.getTokenForResetPassword(), passwordResetDTO.getNewPassword());
-//
-//
-//        if (isReset) {
-//            return ResponseEntity.ok("Пароль успешно обновлен.");
-//        } else {
-//            return ResponseEntity.badRequest().body("Ошибка при обновлении пароля.");
-//        }
-//
-//    }
+ @PostMapping("/reset-password")
+  public ResponseEntity<String> resetPassword(@RequestBody PasswordResetDTO passwordResetDTO) throws MessagingException {
+
+       boolean isReset = resetPasswordService.updatePassword(passwordResetDTO.getTokenForResetPassword(), passwordResetDTO.getNewPassword());
+
+
+       if (isReset) {
+           return ResponseEntity.ok("Пароль успешно обновлен.");
+       } else {
+           return ResponseEntity.badRequest().body("Ошибка при обновлении пароля.");
+       }
+
+   }
 }
 
 
