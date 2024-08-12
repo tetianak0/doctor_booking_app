@@ -1,4 +1,4 @@
-package doctorBookingApp.service.userService;
+package doctorBookingApp.service.registerServices;
 
 
 import doctorBookingApp.entity.ConfirmationCode;
@@ -16,7 +16,6 @@ import java.util.UUID;
 public class ConfirmationCodeService {
 
     private final ConfirmationCodeRepository confirmationCodeRepository;
-    private final UserRepository userRepository;
 
     public String createAndSaveConfirmationCode(User user) {
         String codeValue = UUID.randomUUID().toString();

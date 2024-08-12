@@ -1,4 +1,4 @@
-package doctorBookingApp.service.userService;
+package doctorBookingApp.service.registerServices;
 
 import doctorBookingApp.dto.usersDTO.NewUserDTO;
 import doctorBookingApp.dto.usersDTO.UserDTO;
@@ -27,6 +27,7 @@ public class RegistrationUserService {
    private final ConfirmationCodeService confirmationCodeService;
    private final PasswordEncoder passwordEncoder;
    private final MailService mailService;
+
 
 
 // создает нового пользователя, сохраняет его, генерирует и сохраняет код подтверждения

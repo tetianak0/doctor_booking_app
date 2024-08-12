@@ -1,6 +1,7 @@
 package doctorBookingApp.controller.userControllers;
 
 import doctorBookingApp.dto.StandardResponseDto;
+import doctorBookingApp.dto.resetTokenDTO.PasswordResetDTO;
 import doctorBookingApp.dto.resetTokenDTO.PasswordResetRequestDTO;
 import doctorBookingApp.dto.usersDTO.UserDTO;
 import doctorBookingApp.service.userServices.ResetPasswordService;
@@ -15,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-//Контроллер обработки HTTP-запросов, которые приходят от пользователя для заменs забытого пароля.
+//Контроллер обработки HTTP-запросов, которые приходят от пользователя для замена забытого пароля.
 
 @RestController
 @RequiredArgsConstructor
@@ -82,10 +83,9 @@ public class ResetPasswordController {
 
 
  @PostMapping("/reset-password")
-  public ResponseEntity<String> resetPassword(@RequestBody PasswordResetDTO passwordResetDTO) throws MessagingException {
+  public ResponseEntity<String> resetPassword(@RequestBody PasswordResetDTO passwordResetDTO) {
 
        boolean isReset = resetPasswordService.updatePassword(passwordResetDTO.getTokenForResetPassword(), passwordResetDTO.getNewPassword());
-
 
        if (isReset) {
            return ResponseEntity.ok("Пароль успешно обновлен.");
