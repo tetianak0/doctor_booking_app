@@ -69,4 +69,17 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
+    // Method to extract role from JWT
+    public String getRoleFromJWT(String token) {
+        Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get("role", String.class);
+    }
+
 }
