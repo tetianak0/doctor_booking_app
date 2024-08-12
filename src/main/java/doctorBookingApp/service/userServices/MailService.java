@@ -1,4 +1,4 @@
-package doctorBookingApp.service.userService;
+package doctorBookingApp.service.userServices;
 
 
 import doctorBookingApp.entity.User;

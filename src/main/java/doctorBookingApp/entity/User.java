@@ -58,6 +58,9 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private State state;
 
+    @Column
+    private String tokenForResetPassword;
+
 
 // @Column(nullable = false)
 ////    private String ConfirmationCode;

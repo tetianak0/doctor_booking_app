@@ -18,11 +18,19 @@ public interface UserRepository extends JpaRepository<User, Long>{
     void deleteByEmail(String email);
 
 
+
     Optional<User> findByPhoneNumber(String phoneNumber);
 
     boolean existsByPhoneNumber(String phoneNumber);
 
     void deleteByPhoneNumber(String phoneNumber);
+
+
+
+    Optional<User> findByTokenForResetPassword(String tokenForResetPassword);
+
+    boolean existsByTokenForResetPassword(String tokenForResetPassword);
+
 
 
     Optional<User> findFirstByCodesContains(ConfirmationCode confirmationCode);
