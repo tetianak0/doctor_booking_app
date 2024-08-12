@@ -1,13 +1,12 @@
- package doctorBookingApp.controller;
+ package doctorBookingApp.controller.userControllers;
 
  import doctorBookingApp.dto.StandardResponseDto;
  import doctorBookingApp.dto.usersDTO.NewUserDTO;
  import doctorBookingApp.dto.usersDTO.UserDTO;
  import doctorBookingApp.entity.User;
  import doctorBookingApp.exeption.RestException;
- import doctorBookingApp.service.userService.ConfirmationCodeService;
- import doctorBookingApp.service.userService.RegistrationUserService;
- import doctorBookingApp.service.userService.UserService;
+ import doctorBookingApp.service.userServices.RegistrationUserService;
+ import doctorBookingApp.service.userServices.UserService;
  import io.swagger.v3.oas.annotations.Operation;
  import io.swagger.v3.oas.annotations.media.Content;
  import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,10 +14,8 @@
  import io.swagger.v3.oas.annotations.responses.ApiResponses;
  import jakarta.mail.MessagingException;
  import lombok.RequiredArgsConstructor;
- import org.springframework.beans.factory.annotation.Autowired;
  import org.springframework.http.HttpStatus;
  import org.springframework.http.ResponseEntity;
- import org.springframework.ui.Model;
  import org.springframework.web.bind.annotation.*;
 
  import java.util.List;

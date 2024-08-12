@@ -18,14 +18,14 @@
     </changeSet>
 
     <!-- Вставка данных в таблицу departments -->
-    <changeSet id="insert.default.department" author="author">
+    <changeSet id="insert.default.department" author="author2">
         <insert tableName="departments">
             <column name="title_department" value="Cardiology_department"/>
         </insert>
     </changeSet>
 
     <!-- Создание таблицы doctor_profile -->
-    <changeSet id="create.table.doctor_profile" author="author">
+    <changeSet id="create.table.doctor_profile" author="author3">
         <createTable tableName="doctor_profile">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -52,7 +52,8 @@
     </changeSet>
 
     <!-- Создание таблицы account -->
-    <changeSet id="create.table.account" author="author">
+    <changeSet id="create.table.account" author="author4">
+
         <createTable tableName="account">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -84,6 +85,10 @@
             <column name="confirmation_code" type="VARCHAR(200)">
                 <constraints nullable="true"/>
             </column>
+            <column name="token_for_reset_password" type="VARCHAR(200)">
+                <constraints nullable="true"/>
+            </column>
+
         </createTable>
     </changeSet>
 
@@ -99,6 +104,8 @@
             <column name="role" value="ADMIN"/>
             <column name="state" value="CONFIRMED"/>
             <column name="confirmation_code" value="dfthsrm579ojhmghd"/>
+            <column name="token_for_reset_password" value=""/>
+
 
         </insert>
 
@@ -112,18 +119,19 @@
             <column name="role" value="PATIENT"/>
             <column name="state" value="CONFIRMED"/>
             <column name="confirmation_code" value="3709-07gbnl-[]y76z"/>
+            <column name="token_for_reset_password" value=""/>
         </insert>
     </changeSet>
 
     <!-- Добавление внешнего ключа в таблицу doctor_profile -->
-    <changeSet id="add.foreign.key.to.doctor_profile" author="author">
+    <changeSet id="add.foreign.key.to.doctor_profile" author="author4">
         <addForeignKeyConstraint baseTableName="doctor_profile" baseColumnNames="department_id"
                                  constraintName="fk_doctor_profile_department_id"
                                  referencedTableName="departments" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Вставка данных в таблицу doctor_profile -->
-    <changeSet id="insert.default.doctor_profile" author="author">
+    <changeSet id="insert.default.doctor_profile" author="author5">
         <insert tableName="doctor_profile">
             <column name="first_name" value="doctorName1"/>
             <column name="last_name" value="doctorLastname1"/>

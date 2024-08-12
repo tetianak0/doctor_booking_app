@@ -1,4 +1,4 @@
-package doctorBookingApp.service.userService;
+package doctorBookingApp.service.userServices;
 
 
 import doctorBookingApp.dto.usersDTO.UserDTO;
@@ -6,13 +6,11 @@ import doctorBookingApp.entity.User;
 import doctorBookingApp.exeption.RestException;
 import doctorBookingApp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.util.ErrorPageSupport;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
