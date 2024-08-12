@@ -50,6 +50,7 @@ public class SecurityConfig {
                         .requestMatchers("/timeslots/**").permitAll()
                         .requestMatchers("/doctor-profiles/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/auth-for-reset/**").permitAll()
 
 //                        .requestMatchers("/api/users/**").hasAnyRole("PATIENT","ADMIN")
                         .anyRequest().authenticated())
