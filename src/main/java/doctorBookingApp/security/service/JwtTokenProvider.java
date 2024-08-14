@@ -1,6 +1,7 @@
 package doctorBookingApp.security.service;
 
 
+import doctorBookingApp.entity.enums.Role;
 import doctorBookingApp.exeption.InvalidJwtException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -24,15 +25,15 @@ public class JwtTokenProvider {
     @Value("${jwt.lifetime}")
     private long jwtLifeTime;
 
-    public String createToken(String userName){
+    public String createToken(String userName, Role role) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtLifeTime);
 
-        Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
-
+        Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
 
         return Jwts.builder()
                 .setSubject(userName)
+                .claim("role", role.name()) // Добавление роли в токен
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -69,8 +70,7 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    // Method to extract role from JWT
-    public String getRoleFromJWT(String token) {
+    public Role getRoleFromJWT(String token) {
         Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
 
         Claims claims = Jwts.parserBuilder()
@@ -79,7 +79,7 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
 
-        return claims.get("role", String.class);
+        String roleString = claims.get("role", String.class);
+        return Role.valueOf(roleString); // Преобразование строки в enum
     }
-
 }
