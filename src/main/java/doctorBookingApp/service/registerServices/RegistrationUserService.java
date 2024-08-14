@@ -22,11 +22,11 @@ import java.time.LocalDateTime;
 @Service
 public class RegistrationUserService {
 
-   private final UserRepository userRepository;
-   private final ConfirmationCodeRepository confirmationCodeRepository;
-   private final ConfirmationCodeService confirmationCodeService;
-   private final PasswordEncoder passwordEncoder;
-   private final MailService mailService;
+    private final UserRepository userRepository;
+    private final ConfirmationCodeRepository confirmationCodeRepository;
+    private final ConfirmationCodeService confirmationCodeService;
+    private final PasswordEncoder passwordEncoder;
+    private final MailService mailService;
 
 
 
@@ -47,15 +47,15 @@ public class RegistrationUserService {
                 .phoneNumber(newUser.getPhoneNumber())
                 .email(newUser.getEmail())
                 .password(passwordEncoder.encode(newUser.getPassword()))
-                .role(Role.ADMIN)
-                .state(State.CONFIRMED)
+                .role(Role.PATIENT)
+                .state(State.NOT_CONFIRMED)
                 .build();
 
         userRepository.save(user);
 
-       String codeValue = confirmationCodeService.createAndSaveConfirmationCode(user);
+        String codeValue = confirmationCodeService.createAndSaveConfirmationCode(user);
 
-       mailService.sendConfirmationEmailWithHTML(user, codeValue);// отправка письма
+        mailService.sendConfirmationEmailWithHTML(user, codeValue);// отправка письма
 
 
         return UserDTO.from(user);
