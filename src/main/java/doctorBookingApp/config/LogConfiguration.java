@@ -16,11 +16,11 @@ import java.util.Arrays;
 @Slf4j
 public class LogConfiguration {
 
-    @Pointcut("execution (public * org.doctorBookingApp.controllers.*.*(..))")
+    @Pointcut("execution (public * doctorBookingApp.controller.*.*(..))")
     public void logForController() {}
 
 
-    @Pointcut("execution (public * org.doctorBookingApp.services.*.*(..))")
+    @Pointcut("execution (public * doctorBookingApp.service.*.*(..))")
     public void serviceLog(){}
 
     @Before("logForController()")
