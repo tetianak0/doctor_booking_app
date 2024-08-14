@@ -1,5 +1,6 @@
 package doctorBookingApp.security.filter;
 
+import doctorBookingApp.entity.enums.Role;
 import doctorBookingApp.exeption.InvalidJwtException;
 import doctorBookingApp.security.service.CustomUserDetailsService;
 import doctorBookingApp.security.service.JwtTokenProvider;
@@ -34,7 +35,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             String jwt = getTokenFromRequest(request);
             if (jwt != null && jwtTokenProvider.validateToken(jwt)) {
                 String userName = jwtTokenProvider.getUserNameFromJWT(jwt);
-                String role = jwtTokenProvider.getRoleFromJWT(jwt); // Extract role from JWT
+                Role role = jwtTokenProvider.getRoleFromJWT(jwt); // Extract role from JWT
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(userName);
                 // Create authority list with role
                 List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
