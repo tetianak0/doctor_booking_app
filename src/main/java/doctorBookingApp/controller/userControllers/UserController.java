@@ -145,7 +145,8 @@
          return userService.getAllUsers();
      }
 
-        //УДАЛЕНИЕ ПОЛЬЗОВАТЕЛЯ
+
+     //УДАЛЕНИЕ ПОЛЬЗОВАТЕЛЯ
 
     @Operation(summary = "Удаление пользователя по email")
     @ApiResponses(value = {

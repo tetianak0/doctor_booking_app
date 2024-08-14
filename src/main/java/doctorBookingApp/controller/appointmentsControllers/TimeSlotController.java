@@ -1,12 +1,17 @@
-package doctorBookingApp.controller;
+package doctorBookingApp.controller.appointmentsControllers;
 import doctorBookingApp.dto.TimeSlotDTO;
 import doctorBookingApp.entity.TimeSlot;
 import doctorBookingApp.entity.enums.TypeOfInsurance;
-import doctorBookingApp.service.TimeSlotService;
+import doctorBookingApp.service.bookingServices.TimeSlotService;
+import doctorBookingApp.service.userServices.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +22,47 @@ public class TimeSlotController {
 
     @Autowired
     private TimeSlotService timeSlotService;
+
+    @Autowired
+    private UserService userService;
+
+
+
+    @GetMapping
+    public List<TimeSlot> getAvailableTimeSlots() {
+        return timeSlotService.getAvailableTimeSlots();
+    }
+
+
+
+    @PostMapping("/{id}/book")
+    public ResponseEntity<?> bookTimeSlot(@PathVariable Long id, Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/auth")).build();
+        }
+        timeSlotService.bookingTimeSlot(id, principal.getName());
+        return ResponseEntity.ok().body("Временной слот забронирован, пожалуйста, подтвердите вашу запись.");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @PostMapping
     public TimeSlot addTimeSlot(@RequestBody TimeSlotDTO timeSlotDTO) {

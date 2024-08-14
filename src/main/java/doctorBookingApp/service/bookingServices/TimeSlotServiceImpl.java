@@ -1,4 +1,4 @@
-package doctorBookingApp.service;
+package doctorBookingApp.service.bookingServices;
 
 
 import doctorBookingApp.dto.TimeSlotDTO;
@@ -6,9 +6,12 @@ import doctorBookingApp.entity.DoctorProfile;
 import doctorBookingApp.entity.TimeSlot;
 import doctorBookingApp.entity.enums.TypeOfInsurance;
 import doctorBookingApp.repository.DoctorProfileRepository;
-import doctorBookingApp.repository.TimeSlotRepository;
+import doctorBookingApp.repository.bookingRepositories.TimeSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,11 +26,40 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     @Autowired
     private final DoctorProfileRepository doctorProfileRepository;
 
+    @Autowired
+    private AppointmentService appointmentService;
+
 
     public TimeSlotServiceImpl(TimeSlotRepository timeSlotRepository, DoctorProfileRepository doctorProfileRepository) {
         this.timeSlotRepository = timeSlotRepository;
         this.doctorProfileRepository = doctorProfileRepository;
     }
+
+
+// МЕТОДЫ ДЛЯ БРОНИРОВАНИЯ ВРЕМЕНИ ПРИЕМА У ВРАЧА
+
+    public List<TimeSlot> getAvailableTimeSlots() {
+        return timeSlotRepository.findByIsBookedFalse();
+    }
+
+
+    @Transactional
+    public void bookingTimeSlot(Long timeSlotId, String email) {
+        TimeSlot timeSlot = timeSlotRepository.findById(timeSlotId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Временной слот не найден"));
+
+        if (Boolean.TRUE.equals(timeSlot.getIsBooked())) {
+            throw new IllegalStateException("Временной слот уже забронирован");
+        }
+
+        timeSlot.setIsBooked(true);
+        timeSlotRepository.save(timeSlot);
+
+        appointmentService.prepareAppointment(timeSlot, email);
+    }
+
+
+// МЕТОДЫ ДЛЯ УПРАВЛЕНИЯ ВРЕМЕННЫМИ СЛОТАМИ
 
     @Override
     public TimeSlot addTimeSlot(TimeSlotDTO timeSlotDTO) {

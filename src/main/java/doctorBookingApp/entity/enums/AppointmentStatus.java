@@ -1,6 +1,6 @@
 package doctorBookingApp.entity.enums;
 
-public enum Appointment {
+public enum AppointmentStatus {
 
     SCHEDULED, CANCELLED, COMPLETED
 }

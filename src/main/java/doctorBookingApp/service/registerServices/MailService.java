@@ -5,16 +5,18 @@ import doctorBookingApp.entity.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.mail.SimpleMailMessage; //для замутированного метода
+import org.springframework.mail.SimpleMailMessage; //для замутированного метода
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-//формирует и отправляет письмо с кодом подтверждения
+
 public class MailService {
     private final JavaMailSender mailSender;
+
+    // ФОРМИРУЕТ И ОТПРАВЛЯЕТ ПИСЬМО С КОДОМ ПОДТВЕРЖДЕНИЯ ПРИ РЕГИСТРАЦИИ И ВОССТАНОВЛЕНИИ ПАРОЛЯ
 
     public void sendConfirmationEmailWithHTML(User user, String confirmationCode) throws MessagingException {
 
@@ -38,22 +40,17 @@ public class MailService {
     }
 
 
+    // ФОРМИРУЕТ И ОТПРАВЛЯЕТ ПИСЬМО ПАЦИЕНТУ И В ПРАКСИС С ИНФОРМАЦИЕЙ О ЗАБРОНИРОВАННОМ ПРИЕМЕ
+    // (можем использовать для отправки писем любого содержания)
 
-
-
-
-
-
-//ОТПРАВКА НА ПОЧТУ ПРОСТО КОДА. Как вариант: пользователь может ввести его в регистрационную форму и тем самым подтвердить свою личность
-//    public void sendConfirmationEmail(User user, String confirmationCode) {
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//        mailMessage.setFrom("doctorbooking4@gmail.com");
-//        mailMessage.setTo(user.getEmail());
-//        mailMessage.setSubject("Registration Confirmation Code");
-//        mailMessage.setText("Bitte bestätigen Sie Ihre Registrierung mit dem Code: " + confirmationCode);
-//        mailSender.send(mailMessage);
-//    }
-
+    public void sendEmailAboutAppointment(String recipientEmail, String subject, String textBody) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom("doctorbooking80@gmail.com");
+        mailMessage.setTo(recipientEmail);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(textBody);
+        mailSender.send(mailMessage);
+    }
 
 
 }
