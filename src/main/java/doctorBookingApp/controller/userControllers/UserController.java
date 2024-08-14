@@ -46,14 +46,6 @@
          return ResponseEntity.ok("Регистрация практически завершена. Проверьте свой электронный почтовый ящик на наличие кода подтверждения.");
      }
 
-          @Operation(summary = "Регистрация. Подтверждение пользователя по конфирмационному коду")
-     @ApiResponses(value = {
-             @ApiResponse(responseCode = "200", description = "Пользователь успешно подтвержден",
-                     content = @Content(mediaType = "application/json")),
-             @ApiResponse(responseCode = "400", description = "Код не найден или срок его действия истек",
-                     content = @Content(mediaType = "application/json"))
-     })
-
 
      @GetMapping("/confirm")
      public ResponseEntity<?> confirmUser(@RequestParam String confirmationCode) {
