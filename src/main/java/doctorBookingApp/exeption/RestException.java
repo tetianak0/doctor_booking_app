@@ -17,7 +17,6 @@ public class RestException extends RuntimeException {
     }
 
 
-
     public HttpStatusCode getStatus() {
         return status;
     }

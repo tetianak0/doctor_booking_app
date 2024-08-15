@@ -82,8 +82,8 @@ public class AuthController implements AuthApi {
             return ResponseEntity.ok(userDTO);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        } catch (RestException e) {
-            throw new RuntimeException(e);
+//        } catch (RestException e) {
+//            throw new RuntimeException(e);
         }
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //           String userEmail =  authentication.getName();
