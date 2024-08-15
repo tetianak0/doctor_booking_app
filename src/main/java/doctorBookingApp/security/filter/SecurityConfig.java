@@ -54,7 +54,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/auth-for-reset/**").permitAll()
 
 //                        .requestMatchers("/api/users/**").hasAnyRole("PATIENT","ADMIN")
-                        .anyRequest().perminAll())
+                        .anyRequest().permitAll())
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
