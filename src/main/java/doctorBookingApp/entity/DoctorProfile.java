@@ -2,6 +2,7 @@ package doctorBookingApp.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -30,7 +31,7 @@ public class DoctorProfile {
         @Column(length = 50)
         private String lastName;
 
-        @NotBlank
+        @NotNull
         @ManyToOne
         @JoinColumn(name = "department_id", nullable = false)
         private Department department;
@@ -39,7 +40,7 @@ public class DoctorProfile {
         @Column(length = 255)
         private String specialization;
 
-        @NotBlank
+        @NotNull
         @Column(length = 3)
         private Integer experienceYears;
 

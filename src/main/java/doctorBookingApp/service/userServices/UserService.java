@@ -24,7 +24,6 @@ public class UserService {
         return userRepository.findAll();
     }
 
-
     public UserDTO getUserById(Long userId) throws RestException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND, "Пользователь с ID " + userId + " не найден."));

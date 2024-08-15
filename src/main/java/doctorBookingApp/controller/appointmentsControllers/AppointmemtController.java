@@ -3,8 +3,6 @@ package doctorBookingApp.controller.appointmentsControllers;
 import doctorBookingApp.entity.Appointment;
 import doctorBookingApp.service.bookingServices.AppointmentService;
 import doctorBookingApp.service.userServices.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,7 +25,6 @@ public class AppointmemtController {
 
     // ПОЛУЧЕНИЕ ПОЛЬЗОВАТЕЛЕМ СПИСКА ВСЕХ СВОИХ ЗАПИСЕЙ НА ПРИЕМ К ВРАЧУ
 
-    @Operation(summary = "Получение информации о предстоящих приемах у врача", description = "Позволяет пользователю получить список всех своих записей на прием к врачу.")
     @GetMapping("/my")
     public List<Appointment> getUserAppointments(Authentication authentication) {
         // Получаем UserDetails, который содержит информацию о текущем пользователе
@@ -40,10 +37,8 @@ public class AppointmemtController {
 
     // ПАЦИЕНТ ОТМЕНЯЕТ ЗАПИСЬ НА ПРИЕМ
 
-    @Operation(summary = "Отмена записи на прием к врачу", description = "Позволяет пользователю отменить свою запись на прием к врачу, если до приема осталось больше 24 часов.")
     @DeleteMapping("/{id}/cancel")
-    public ResponseEntity<?> cancelAppointment(
-            @Parameter(description = "Идентификатор записи на прием", required = true) @PathVariable Long id, Authentication authentication) {
+    public ResponseEntity<?> cancelAppointment(@PathVariable Long id, Authentication authentication) {
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
