@@ -4,6 +4,11 @@ import doctorBookingApp.entity.TimeSlot;
 import doctorBookingApp.entity.enums.TypeOfInsurance;
 import doctorBookingApp.service.bookingServices.TimeSlotService;
 import doctorBookingApp.service.userServices.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -27,6 +32,7 @@ public class TimeSlotController {
     private UserService userService;
 
 
+    @Operation(summary = "Получение свободных временнЫх слотов", description = "Возвращает список всех временнЫх слотов, которые еще не забронированы.")
 
     @GetMapping
     public List<TimeSlot> getAvailableTimeSlots() {
@@ -35,28 +41,17 @@ public class TimeSlotController {
 
 
 
+    @Operation(summary = "Бронирование временного слота", description = "Позволяет пациенту забронировать временной слот, используя его ID.")
+
     @PostMapping("/{id}/book")
-    public ResponseEntity<?> bookTimeSlot(@PathVariable Long id, Principal principal) {
+    public ResponseEntity<?> bookTimeSlot(
+            @Parameter(description = "Идентификатор временного слота", required = true) @PathVariable Long id, Principal principal) {
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/auth")).build();
         }
         timeSlotService.bookingTimeSlot(id, principal.getName());
-        return ResponseEntity.ok().body("Временной слот забронирован, пожалуйста, подтвердите вашу запись.");
+        return ResponseEntity.ok().body("Временной слот забронирован. Если Вы уверены ы Вашем выборе, пожалуйста, подтвердите Вашу запись.");
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

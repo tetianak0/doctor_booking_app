@@ -41,19 +41,31 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/hallo/**").permitAll()
-//                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-//                        .requestMatchers("/auth/**").permitAll()
-//                        .requestMatchers("/users/**").permitAll()
-//                        .requestMatchers(HttpMethod.GET,"/departments/**").permitAll()
-//                        .requestMatchers(HttpMethod.GET,"/doctor-profiles/**").permitAll()
-//                        .requestMatchers("/timeslots/**").permitAll()
-//                        .requestMatchers("/doctor-profiles/**").permitAll()
-//                        .requestMatchers("/admin/**").hasRole("ADMIN")
-//                        .requestMatchers("/auth-for-reset/**").permitAll()
-
-//                        .requestMatchers("/api/users/**").hasAnyRole("PATIENT","ADMIN")
+                        .requestMatchers("/hallo/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/register/**").permitAll() // добавила для APPOINTMENTa
+                        .requestMatchers("/users/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/departments/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/doctor-profiles/**").permitAll()
+                        .requestMatchers("/timeslots/**").permitAll() // добавила для APPOINTMENTa
+                        .requestMatchers("/timeslots/**").permitAll()
+                        .requestMatchers("/doctor-profiles/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/auth-for-reset/**").permitAll()
+                        .requestMatchers("/api/users/**").hasAnyRole("PATIENT","ADMIN")
                         .anyRequest().permitAll())
+                        //.anyRequest().authenticated())
+
+                //конфигурация формы входа. При входе пользователь будет перенаправлен на /timeslots
+                .formLogin(form -> form
+                        .loginPage("/auth") // добавила для APPOINTMENTa
+                        .defaultSuccessUrl("/timeslots", true) // перенесли из старого класса
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/timeslots") // добавила для APPOINTMENTa
+                        .permitAll())
+
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);

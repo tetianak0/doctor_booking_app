@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
@@ -20,7 +21,7 @@ public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
       Без параметров, потому что в названии метода заложено условие поиска*/
 
     List<TimeSlot> findByIsBookedFalse();
-
+    Optional<TimeSlot> findById(Long id);
 
 
     List<TimeSlot> findByDoctorId(Long doctorId);

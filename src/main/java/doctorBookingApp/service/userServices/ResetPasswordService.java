@@ -31,7 +31,7 @@ public class ResetPasswordService {
         user.setTokenForResetPassword(tokenForPassword);
         userRepository.save(user);
 
-        String resetURL = "http://localhost:8080/auth/reset-password?token=" + tokenForPassword;
+        String resetURL = "http://localhost:8080/api/auth-for-reset/reset-password?token=" + tokenForPassword;
 
         String subjectOfLetter = "Password reset";
         String textBody = "<p> Click the link below to reset password:</p>" +

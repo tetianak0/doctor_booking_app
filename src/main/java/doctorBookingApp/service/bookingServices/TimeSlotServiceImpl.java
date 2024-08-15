@@ -30,9 +30,10 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     private AppointmentService appointmentService;
 
 
-    public TimeSlotServiceImpl(TimeSlotRepository timeSlotRepository, DoctorProfileRepository doctorProfileRepository) {
+    public TimeSlotServiceImpl(TimeSlotRepository timeSlotRepository, DoctorProfileRepository doctorProfileRepository, AppointmentService appointmentService) {
         this.timeSlotRepository = timeSlotRepository;
         this.doctorProfileRepository = doctorProfileRepository;
+        this.appointmentService = appointmentService;
     }
 
 
