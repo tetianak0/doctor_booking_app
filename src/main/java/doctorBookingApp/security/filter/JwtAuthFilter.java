@@ -6,6 +6,7 @@ import doctorBookingApp.security.service.CustomUserDetailsService;
 import doctorBookingApp.security.service.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +36,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             String jwt = getTokenFromRequest(request);
             if (jwt != null && jwtTokenProvider.validateToken(jwt)) {
                 String userName = jwtTokenProvider.getUserNameFromJWT(jwt);
-                Role role = jwtTokenProvider.getRoleFromJWT(jwt); // Extract role from JWT
+
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(userName);
-                // Create authority list with role
-                List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
@@ -51,12 +50,18 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private String getTokenFromRequest(HttpServletRequest request){
-        String bearerToken = request.getHeader("Authorization");
-
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")){
-            return bearerToken.substring(7);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("Access-Token".equals(cookie.getName())) {//change to constant
+                    return cookie.getValue();
+                }
+            }
         }
-
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            return token.substring(7);
+        }
         return null;
     }
 
