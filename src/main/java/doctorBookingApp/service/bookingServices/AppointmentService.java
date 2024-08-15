@@ -105,7 +105,7 @@ public class AppointmentService {
         }
 
         // ОБНОВЛЯЕМ СТАТУС APPOINTMENTа на "CANCELED"
-        appointment.setStatus(AppointmentStatus.CANCELLED);
+        appointment.setStatus(AppointmentStatus.CANCELED);
         appointmentRepository.save(appointment);
 
         // ТАЙМ-СЛОТ СТАНОВИТСЯ ДОСТУПНЫМ ДЛЯ ДРУГИХ ПОЛЬЗОВАТЕЛЕЙ
