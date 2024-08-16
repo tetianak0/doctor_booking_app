@@ -22,7 +22,7 @@ public class TimeSlot {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id", referencedColumnName = "id")
+    @JoinColumn(name = "doctor_id", referencedColumnName = "id", nullable = false)
     private DoctorProfile doctor;
 
     private LocalDateTime dateTime;
@@ -30,7 +30,7 @@ public class TimeSlot {
     @Enumerated(EnumType.STRING)
     private TypeOfInsurance insurance;
 
-    private Boolean isBooked;
+    private Boolean isBooked = false;
 
 
 }

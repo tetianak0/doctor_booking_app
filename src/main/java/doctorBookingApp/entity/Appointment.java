@@ -16,18 +16,21 @@ import lombok.*;
 @Table(name = "appointments")
 public class Appointment {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAppointment;
 
-    private Long doctorId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private User user;
 
-    private  Long userId;
-
-    private Long timeSlotId;
+    @ManyToOne
+    @JoinColumn(name = "time_slot_id", referencedColumnName = "id", nullable = false)
+    private TimeSlot timeSlot;
 
     @Enumerated(EnumType.STRING)
-    private AppointmentStatus status;
+    private AppointmentStatus status = AppointmentStatus.SCHEDULED;
 
 
 
