@@ -44,6 +44,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/hallo/**").permitAll()
                         // .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         // .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/register/**").permitAll() // добавила для APPOINTMENT-a
                         // .requestMatchers(HttpMethod.GET,"/auth/profile").authenticated()
 //                        .requestMatchers("/users/**").permitAll()
 //                        .requestMatchers(HttpMethod.GET,"/departments/**").permitAll()
@@ -55,6 +56,18 @@ public class SecurityConfig {
 
 //                        .requestMatchers("/api/users/**").hasAnyRole("PATIENT","ADMIN")
                         .anyRequest().permitAll())
+                      //.anyRequest().authenticated())
+
+
+                //конфигурация формы входа. При входе пользователь будет перенаправлен на /timeslots
+                .formLogin(form -> form
+                        .loginPage("/auth") // добавила для APPOINTMENT-a
+                        .defaultSuccessUrl("/timeslots", true) // перенесли из старого класса
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/timeslots") // добавила для APPOINTMENT-a
+                        .permitAll())
+
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
