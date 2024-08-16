@@ -20,42 +20,48 @@ import java.util.List;
 @Service
 public class AppointmentService {
 
-    @Autowired //автоматич. связывание компонентов бина между собой. Позволяет автоматически настраивать свойства бина и методы,
-    // упрощая тем самым процесс инъекции зависимостей.
-    private AppointmentRepository appointmentRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TimeSlotRepository timeSlotRepository;
+    private final AppointmentRepository appointmentRepository;
+    private final UserRepository userRepository;
+    private final TimeSlotRepository timeSlotRepository;
 
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, TimeSlotRepository timeSlotRepository) {
+        this.appointmentRepository = appointmentRepository;
+        this.userRepository = userRepository;
+        this.timeSlotRepository = timeSlotRepository;
+    }
 
-    //КОНСТРУКТОР APPOINTMENTa (создание записи на прием к врачу - связываем конкретного пользователя с конкретнім временем и врачом)
 
-    public void prepareAppointment(TimeSlot timeSlot, String email) {
+
+    //КОНСТРУКТОР APPOINTMENT-a (создание записи на прием к врачу - связываем конкретного пользователя с конкретнім временем и врачом)
+
+    public void confirmAppointment(TimeSlot timeSlot, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь не найден."));
 
         Appointment appointment = Appointment.builder()
-                .doctorId(timeSlot.getDoctor().getId())
-                .userId(user.getId())
-                .timeSlotId(timeSlot.getId())
+                .timeSlot(timeSlot)
+                .user(user)
+                .status(AppointmentStatus.SCHEDULED)
                 .build();
 
         appointmentRepository.save(appointment);
 
-        sendEmailAboutAppointment(timeSlot, user);
+        sendEmailAboutAppointment(appointment);
 
     }
 
-// ОТПРАВКА ПИСЕМ С APPOINTMENTом ПАЦИЕНТУ И В ПРАКСИС
 
-    private void sendEmailAboutAppointment(TimeSlot timeSlot, User user) {
+// ОТПРАВКА ПИСЕМ С APPOINTMENT-ом ПАЦИЕНТУ И В ПРАКСИС
+
+    private void sendEmailAboutAppointment(Appointment appointment) {
         String clinicEmail = "doctorbooking80@gmail.com"; // должен быть реальный (также прописанный в пропертис) адрес праксиса
+
+        TimeSlot timeSlot = appointment.getTimeSlot();
+        User user = appointment.getUser();
 
         String userSubject = "Подтверждение записи на приём";
         String userMessage = String.format("Уважаемый(ая) %s, ваша запись к доктору %s на %s подтверждена.",
@@ -68,6 +74,8 @@ public class AppointmentService {
 
         mailService.sendEmailAboutAppointment(user.getEmail(), userSubject, userMessage);
         mailService.sendEmailAboutAppointment(clinicEmail, clinicSubject, clinicMessage);
+
+
     }
 
 
@@ -91,20 +99,21 @@ public class AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Запрашиваемая запись не найдена"));
 
-        if (!appointment.getUserId().equals(user.getId())) {
+        if (!appointment.getUser().getId().equals(user.getId())) {
             throw new SecurityException("Вы не можете отменить эту запись");
         }
 
-        TimeSlot timeSlot = timeSlotRepository.findById(appointment.getTimeSlotId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Запрашиваемое время приема (тайм-слот) не найдено."));
-
+        TimeSlot timeSlot = appointment.getTimeSlot();
+        if (timeSlot == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Запрашиваемое время приема (тайм-слот) не найдено.");
+        }
         // ПРОВЕРКА НА ВРЕМЯ
         LocalDateTime now = LocalDateTime.now();
         if (timeSlot.getDateTime().isBefore(now.plusHours(24))) {
             throw new IllegalStateException("До приема у доктора осталось меньше 24 часов. Поэтому Вы уже не можете отменить запись.");
         }
 
-        // ОБНОВЛЯЕМ СТАТУС APPOINTMENTа на "CANCELED"
+        // ОБНОВЛЯЕМ СТАТУС APPOINTMENT-а на "CANCELED"
         appointment.setStatus(AppointmentStatus.CANCELED);
         appointmentRepository.save(appointment);
 

@@ -26,13 +26,12 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     @Autowired
     private final DoctorProfileRepository doctorProfileRepository;
 
-    @Autowired
-    private AppointmentService appointmentService;
 
 
     public TimeSlotServiceImpl(TimeSlotRepository timeSlotRepository, DoctorProfileRepository doctorProfileRepository) {
         this.timeSlotRepository = timeSlotRepository;
         this.doctorProfileRepository = doctorProfileRepository;
+
     }
 
 
@@ -44,19 +43,31 @@ public class TimeSlotServiceImpl implements TimeSlotService {
 
 
     @Transactional
-    public void bookingTimeSlot(Long timeSlotId, String email) {
+    public Optional<TimeSlot> bookingTimeSlot(Long timeSlotId) {
+        return timeSlotRepository.findById(timeSlotId)
+                .map(timeSlot -> {
+                    if (Boolean.TRUE.equals(timeSlot.getIsBooked())) {
+                        throw new IllegalStateException("Временной слот уже забронирован.");
+                    }
+
+                    timeSlot.setIsBooked(true);
+                    return timeSlotRepository.save(timeSlot);
+                });
+
+
+    }
+
+    //ОТКАЗ ОТ ЗАБРОНИРОВАННОГО ВРЕМЕННОГО СЛОТА
+    @Transactional
+    public void cancelBooking(Long timeSlotId) {
         TimeSlot timeSlot = timeSlotRepository.findById(timeSlotId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Временной слот не найден"));
 
-        if (Boolean.TRUE.equals(timeSlot.getIsBooked())) {
-            throw new IllegalStateException("Временной слот уже забронирован");
-        }
-
-        timeSlot.setIsBooked(true);
+        timeSlot.setIsBooked(false);
         timeSlotRepository.save(timeSlot);
-
-        appointmentService.prepareAppointment(timeSlot, email);
     }
+
+
 
 
 // МЕТОДЫ ДЛЯ УПРАВЛЕНИЯ ВРЕМЕННЫМИ СЛОТАМИ

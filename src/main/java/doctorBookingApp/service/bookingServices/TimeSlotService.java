@@ -14,6 +14,7 @@ public interface TimeSlotService {
     TimeSlot updateTimeSlot(Long id, TimeSlotDTO timeSlotDTO);
     void deleteTimeSlot(Long id);
 
+
     List<TimeSlot> getTimeSlotsByDoctor(TimeSlotDTO timeSlotDTO);
     List<TimeSlot> getTimeSlotsByInsurance(TypeOfInsurance insurance);
     List<TimeSlot> getTimeSlotsByDateTime(LocalDateTime dateTime);
@@ -21,5 +22,6 @@ public interface TimeSlotService {
 
 
     List<TimeSlot> getAvailableTimeSlots();
-    void bookingTimeSlot(Long timeSlotId, String email);
+    Optional<TimeSlot> bookingTimeSlot(Long timeSlotId);
+    void cancelBooking(Long id);
 }
