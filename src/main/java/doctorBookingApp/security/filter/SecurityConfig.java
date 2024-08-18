@@ -62,7 +62,7 @@ public class SecurityConfig {
                 //конфигурация формы входа. При входе пользователь будет перенаправлен на /timeslots
                 .formLogin(form -> form
                         .loginPage("/auth") // добавила для APPOINTMENT-a
-                        .defaultSuccessUrl("/timeslots", true) // перенесли из старого класса
+                        .defaultSuccessUrl("/timeslots", true) // добавила для APPOINTMENT-a
                         .permitAll())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/timeslots") // добавила для APPOINTMENT-a
