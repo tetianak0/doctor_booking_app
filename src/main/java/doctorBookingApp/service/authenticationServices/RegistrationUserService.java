@@ -1,4 +1,4 @@
-package doctorBookingApp.service.registerServices;
+package doctorBookingApp.service.authenticationServices;
 
 import doctorBookingApp.dto.usersDTO.NewUserDTO;
 import doctorBookingApp.dto.usersDTO.UserDTO;

@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+//import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -30,6 +29,7 @@ public class SecurityConfig {
 
     private final JwtAuthFilter filter;
 
+
     @Bean
     public PasswordEncoder passwordEncoder(){
 //       return NoOpPasswordEncoder.getInstance();
@@ -44,25 +44,28 @@ public class SecurityConfig {
 //                        .requestMatchers("/hallo/**").permitAll()
                         // .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         // .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/register/**").permitAll() // добавила для APPOINTMENT-a
-                        // .requestMatchers(HttpMethod.GET,"/auth/profile").authenticated()
-//                        .requestMatchers("/users/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // добавила в контексте разделения функционала между ролями
+                        .requestMatchers("/users/**").hasAnyRole("PATIENT", "ADMIN") // добавила в контексте разделения функционала между ролями
+                        .requestMatchers("/users-authentication/**").permitAll() // добавила в контексте разделения функционала между ролями
+                        .requestMatchers("/auth-for-reset/**").hasAnyRole("PATIENT", "ADMIN") // добавила в контексте разделения функционала между ролями
+                        .requestMatchers("/timeslots/**").permitAll() // добавила в контексте разделения функционала между ролями
+                        .requestMatchers("/appointments/**").hasAnyRole("PATIENT", "ADMIN") // добавила в контексте разделения функционала между ролями
+                        .requestMatchers("/departments/**").hasAnyRole("PATIENT", "ADMIN") // добавила в контексте разделения функционала между ролями
+                        .requestMatchers("/doctor-profiles/**").hasAnyRole("PATIENT", "ADMIN") // добавила в контексте разделения функционала между ролями
+
+                        // .requestMatchers(HttpMethod.GET,"/auth/profile").authenticated()                        .
 //                        .requestMatchers(HttpMethod.GET,"/departments/**").permitAll()
-//                        .requestMatchers(HttpMethod.GET,"/doctor-profiles/**").permitAll()
-                        // .requestMatchers("/timeslots/**").hasRole("PATIENT")
-//                        .requestMatchers("/doctor-profiles/**").permitAll()
-//                        .requestMatchers("/admin/**").hasRole("ADMIN")
-//                        .requestMatchers("/auth-for-reset/**").permitAll()
+//                        .requestMatchers(HttpMethod.GET,"/doctor-profiles/**").permitAll()//
 
-//                        .requestMatchers("/api/users/**").hasAnyRole("PATIENT","ADMIN")
-                        .anyRequest().permitAll())
-                      //.anyRequest().authenticated())
+                        //.anyRequest().permitAll())
+                      .anyRequest().authenticated())
 
 
-                //конфигурация формы входа. При входе пользователь будет перенаправлен на /timeslots
+                //конфигурация формы входа. При входе пользователь будет перенаправлен на /timeslots.
+                // НО ВОЗМОЖНО, ЧТО ЭТО ИЗЛИШНЕ И ФОРМУ СТОИТ СДЕЛАТЬ УНИВЕРСАЛЬНОЙ
                 .formLogin(form -> form
                         .loginPage("/auth") // добавила для APPOINTMENT-a
-                        .defaultSuccessUrl("/timeslots", true) // перенесли из старого класса
+                        .defaultSuccessUrl("/timeslots", true) // добавила для APPOINTMENT-a
                         .permitAll())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/timeslots") // добавила для APPOINTMENT-a

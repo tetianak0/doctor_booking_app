@@ -7,6 +7,7 @@ import doctorBookingApp.exeption.RestException;
 import doctorBookingApp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
 
     public UserDTO getUserById(Long userId) throws RestException {
         User user = userRepository.findById(userId)
@@ -42,7 +44,7 @@ public class UserService {
                 .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND, "Пользователь с номером телефона " + phoneNumber + " не найден.")));
     }
 
-
+    @PreAuthorize("hasRole('PATIENT') or hasRole('ADMIN')")
     @Transactional
     public UserDTO editUser(Long userId, UserDTO userDTO) throws RestException {
         User user = userRepository.findById(userId)
@@ -63,7 +65,7 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-
+    @PreAuthorize("hasRole('PATIENT') or hasRole('ADMIN')")
     @Transactional
     public void deleteUserByEmail(String email) throws RestException {
         User user = userRepository.findByEmail(email)
@@ -79,7 +81,6 @@ public class UserService {
         userRepository.deleteByPhoneNumber(user.getPhoneNumber());
 
     }
-
 
 
 }

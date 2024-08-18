@@ -123,18 +123,18 @@
 
         </insert>
 
-        <insert tableName="account">
-            <column name="firstname" value="Admin"/>
-            <column name="sur_name" value="Smith"/>
-            <column name="birth_date" value="1992-02-02"/>
-            <column name="phone_number" value="0987654321"/>
-            <column name="email" value="admin@example.com"/>
-            <column name="password" value="password"/>
-            <column name="role" value="ADMIN"/>
-            <column name="state" value="CONFIRMED"/>
-            <column name="confirmation_code" value="3709-07gbnl-[]y76z"/>
-            <column name="token_for_reset_password" value=""/>
-        </insert>
+<!--        <insert tableName="account">-->
+<!--            <column name="firstname" value="Admin"/>-->
+<!--            <column name="sur_name" value="Smith"/>-->
+<!--            <column name="birth_date" value="1992-02-02"/>-->
+<!--            <column name="phone_number" value="0987654321"/>-->
+<!--            <column name="email" value="admin@example.com"/>-->
+<!--            <column name="password" value="password"/>-->
+<!--            <column name="role" value="ADMIN"/>-->
+<!--            <column name="state" value="CONFIRMED"/>-->
+<!--            <column name="confirmation_code" value="3709-07gbnl-[]y76z"/>-->
+<!--            <column name="token_for_reset_password" value=""/>-->
+<!--        </insert>-->
     </changeSet>
 
     <!-- Добавление внешнего ключа в таблицу doctor_profile -->
@@ -152,17 +152,6 @@
             <column name="department_id" value="1"/>
             <column name="specialization" value="Röntgenassistentin"/>
             <column name="experience_years" value="2"/>
-            <column name="review_id" value="1"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="insert.default.doctor_profile" author="author6">
-        <insert tableName="doctor_profile">
-            <column name="first_name" value="Thomas"/>
-            <column name="last_name" value="Graubner"/>
-            <column name="department_id" value="1"/>
-            <column name="specialization" value="Chirurgie"/>
-            <column name="experience_years" value="7"/>
             <column name="review_id" value="1"/>
         </insert>
     </changeSet>

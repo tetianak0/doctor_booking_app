@@ -1,10 +1,10 @@
-package doctorBookingApp.controller.userControllers;
+package doctorBookingApp.controller.authenticationControllers;
 
 import doctorBookingApp.dto.StandardResponseDto;
 import doctorBookingApp.dto.resetTokenDTO.PasswordResetDTO;
 import doctorBookingApp.dto.resetTokenDTO.PasswordResetRequestDTO;
 import doctorBookingApp.dto.usersDTO.UserDTO;
-import doctorBookingApp.service.userServices.ResetPasswordService;
+import doctorBookingApp.service.authenticationServices.ResetPasswordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -44,7 +44,6 @@ public class ResetPasswordController {
     }
 
 
-
     @Operation(summary = "Восстановления пароля по токену. Проверяет валидность токена для восстановления пароля и предлагает ввести новый пароль.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Введите новый пароль.",
@@ -55,7 +54,6 @@ public class ResetPasswordController {
                             schema = @Schema(implementation = StandardResponseDto.class)))
 
     })
-
 
 
     @GetMapping("/reset-password")

@@ -1,4 +1,4 @@
-package doctorBookingApp.service.userServices;
+package doctorBookingApp.service.authenticationServices;
 
 import doctorBookingApp.entity.User;
 import doctorBookingApp.repository.UserRepository;
@@ -7,6 +7,7 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class ResetPasswordService {
 
 
 
-
+    @PreAuthorize("hasRole('PATIENT') or hasRole('ADMIN')")
     public void sendResetPasswordLink(String email) throws MessagingException {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Пользователь с таким email не найден"));
@@ -31,7 +32,7 @@ public class ResetPasswordService {
         user.setTokenForResetPassword(tokenForPassword);
         userRepository.save(user);
 
-        String resetURL = "http://localhost:8080/auth-for-reset/reset-password?token=" + tokenForPassword;
+        String resetURL = "http://localhost:8080/api/auth-for-reset/reset-password?token=" + tokenForPassword;
 
         String subjectOfLetter = "Password reset";
         String textBody = "<p> Click the link below to reset password:</p>" +
@@ -56,7 +57,7 @@ public class ResetPasswordService {
     }
 
 
-
+    @PreAuthorize("hasRole('PATIENT') or hasRole('ADMIN')")
     public boolean updatePassword(String tokenForResetPassword, String newPassword) {
 
         User user = userRepository.findByTokenForResetPassword(tokenForResetPassword)

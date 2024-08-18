@@ -1,10 +1,9 @@
-package doctorBookingApp.service.registerServices;
+package doctorBookingApp.service.authenticationServices;
 
 
 import doctorBookingApp.entity.ConfirmationCode;
 import doctorBookingApp.entity.User;
 import doctorBookingApp.repository.ConfirmationCodeRepository;
-import doctorBookingApp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

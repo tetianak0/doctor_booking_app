@@ -5,10 +5,13 @@ import doctorBookingApp.dto.TimeSlotDTO;
 import doctorBookingApp.entity.DoctorProfile;
 import doctorBookingApp.entity.TimeSlot;
 import doctorBookingApp.entity.enums.TypeOfInsurance;
+import doctorBookingApp.exeption.ConflictException;
 import doctorBookingApp.repository.DoctorProfileRepository;
 import doctorBookingApp.repository.bookingRepositories.TimeSlotRepository;
+import jakarta.persistence.OptimisticLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -58,6 +61,7 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     }
 
     //ОТКАЗ ОТ ЗАБРОНИРОВАННОГО ВРЕМЕННОГО СЛОТА
+    @PreAuthorize("hasRole('PATIENT')")
     @Transactional
     public void cancelBooking(Long timeSlotId) {
         TimeSlot timeSlot = timeSlotRepository.findById(timeSlotId)
@@ -73,6 +77,7 @@ public class TimeSlotServiceImpl implements TimeSlotService {
 // МЕТОДЫ ДЛЯ УПРАВЛЕНИЯ ВРЕМЕННЫМИ СЛОТАМИ
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public TimeSlot addTimeSlot(TimeSlotDTO timeSlotDTO) {
 
         // Найти профиль доктора по ID
@@ -91,22 +96,32 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public TimeSlot updateTimeSlot(Long id, TimeSlotDTO timeSlotDTO) {
-        TimeSlot existingTimeSlot = timeSlotRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("TimeSlot not found"));
+        try {
+            TimeSlot existingTimeSlot = timeSlotRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("TimeSlot not found"));
 
-        DoctorProfile doctor = doctorProfileRepository.findById(timeSlotDTO.getDoctorId())
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+            DoctorProfile doctor = doctorProfileRepository.findById(timeSlotDTO.getDoctorId())
+                    .orElseThrow(() -> new RuntimeException("Doctor not found"));
 
-        existingTimeSlot.setDoctor(doctor);
-        existingTimeSlot.setDateTime(timeSlotDTO.getDateTime());
-        existingTimeSlot.setInsurance(timeSlotDTO.getInsurance());
-        existingTimeSlot.setIsBooked(timeSlotDTO.getIsBooked());
+            existingTimeSlot.setDoctor(doctor);
+            existingTimeSlot.setDateTime(timeSlotDTO.getDateTime());
+            existingTimeSlot.setInsurance(timeSlotDTO.getInsurance());
+            existingTimeSlot.setIsBooked(timeSlotDTO.getIsBooked());
 
-        return timeSlotRepository.save(existingTimeSlot);
+            return timeSlotRepository.save(existingTimeSlot);
+        } catch (OptimisticLockException e) {
+            // Обработка конфликта версий, если вдруг админ начнет редактировать тайм-слот, который в этот момент бронирует пациент
+            throw new ConflictException("TimeSlot was modified by another transaction");
+        }
+
+
+
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteTimeSlot(Long id) {
 
         timeSlotRepository.deleteById(id);

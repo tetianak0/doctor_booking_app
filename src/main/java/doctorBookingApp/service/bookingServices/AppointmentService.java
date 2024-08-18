@@ -7,9 +7,10 @@ import doctorBookingApp.entity.enums.AppointmentStatus;
 import doctorBookingApp.repository.UserRepository;
 import doctorBookingApp.repository.bookingRepositories.AppointmentRepository;
 import doctorBookingApp.repository.bookingRepositories.TimeSlotRepository;
-import doctorBookingApp.service.registerServices.MailService;
+import doctorBookingApp.service.authenticationServices.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -37,7 +38,7 @@ public class AppointmentService {
 
 
     //КОНСТРУКТОР APPOINTMENT-a (создание записи на прием к врачу - связываем конкретного пользователя с конкретнім временем и врачом)
-
+    @PreAuthorize("hasRole('PATIENT')")
     public void confirmAppointment(TimeSlot timeSlot, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь не найден."));
@@ -80,7 +81,7 @@ public class AppointmentService {
 
 
 // ПОЛУЧЕНИЕ ПОЛЬЗОВАТЕЛЕМ СПИСКА ВСЕХ СВОИХ ЗАПИСЕЙ НА ПРИЕМ К ВРАЧУ
-
+    @PreAuthorize("hasRole('PATIENT')")
     public List<Appointment> getAppointmentsByUser(String Email) {
         User user = userRepository.findByEmail(Email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь не найден."));
@@ -90,7 +91,7 @@ public class AppointmentService {
 
 
     // ПАЦИЕНТ ОТМЕНЯЕТ ЗАПИСЬ НА ПРИЕМ
-
+    @PreAuthorize("hasRole('PATIENT') or hasRole('ADMIN')")
     @Transactional
     public void cancelAppointment(Long appointmentId, String email) {
         User user = userRepository.findByEmail(email)

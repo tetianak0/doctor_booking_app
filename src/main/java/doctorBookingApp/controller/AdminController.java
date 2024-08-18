@@ -1,15 +1,15 @@
 package doctorBookingApp.controller;
 
-import doctorBookingApp.dto.TimeSlotDTO;
-
-import doctorBookingApp.dto.usersDTO.UserDTO;
-import doctorBookingApp.entity.TimeSlot;
-import doctorBookingApp.exeption.RestException;
-
-
-import doctorBookingApp.service.bookingServices.TimeSlotService;
-import doctorBookingApp.service.userServices.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+//import doctorBookingApp.dto.TimeSlotDTO;
+//
+//import doctorBookingApp.dto.usersDTO.UserDTO;
+//import doctorBookingApp.entity.TimeSlot;
+//import doctorBookingApp.exeption.RestException;
+//
+//
+//import doctorBookingApp.service.bookingServices.TimeSlotService;
+//import doctorBookingApp.service.userServices.UserService;
+//import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -18,17 +18,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    private final UserService userService;
-
-    @Autowired
-    private final TimeSlotService timeSlotService;
-
-
-    public AdminController(TimeSlotService timeSlotService, UserService userService) {
-        this.timeSlotService = timeSlotService;
-        this.userService = userService;
-    }
+//    @Autowired
+//    private final UserService userService;
+//
+//    @Autowired
+//    private final TimeSlotService timeSlotService;
+//
+//
+//    public AdminController(TimeSlotService timeSlotService, UserService userService) {
+//        this.timeSlotService = timeSlotService;
+//        this.userService = userService;
+//    }
 
 //    // Поиск всех пользователей
 //    @GetMapping("/users")
@@ -38,52 +38,48 @@ public class AdminController {
 //    }
 
 
-    // Поиск пользователя по ID
-    @GetMapping("/users/{id}")//работает
-    public UserDTO getUserById(@PathVariable Long id) throws RestException {
-        return userService.getUserById(id);
-    }
-
-    // Обновление пользователя по ID
-    @PutMapping("/users/{id}")//работает
-    public UserDTO updateUserById(@PathVariable Long id, @RequestBody UserDTO userDTO) throws RestException {
-        return userService.editUser(id, userDTO);
-    }
-
-    // Удаление пользователя по ID
-    @DeleteMapping("/users/{id}")// работает
-    public void deleteUserById(@PathVariable Long id) throws RestException {
-        userService.deleteUserById(id);
-    }
-
-    @PostMapping("/timeslots")//ПРОВЕРЕН
-    public TimeSlot addTimeSlot(@RequestBody TimeSlotDTO timeSlotDTO) {
-        try {
-            return timeSlotService.addTimeSlot(timeSlotDTO);
-        } catch (Exception e) {
-            // В случае ошибки возвращаем null или пустое значение
-            return null;
-        }
-    }
-
-    @PutMapping("/timeslots/{id}")//ПРОВЕРЕН
-    public TimeSlot updateTimeSlot(@PathVariable Long id, @RequestBody TimeSlotDTO timeSlotDTO) {
-        try {
-            return timeSlotService.updateTimeSlot(id, timeSlotDTO);
-        } catch (Exception e) {
-
-            return null;
-        }
-    }
-
-    @DeleteMapping("/timeslots/{id}")//проверен
-    public void deleteTimeSlot(@PathVariable Long id) {
-        try {
-            timeSlotService.deleteTimeSlot(id);
-        } catch (Exception e) {
-            System.out.println("Error deleting time slot: ");
-        }
-    }
+//    // Поиск пользователя по ID
+//    @GetMapping("/users/{id}")//работает
+//    public UserDTO getUserById(@PathVariable Long id) throws RestException {
+//        return userService.getUserById(id);
+//    }
+//
+//    // Обновление пользователя по ID
+//    @PutMapping("/users/{id}")//работает
+//    public UserDTO updateUserById(@PathVariable Long id, @RequestBody UserDTO userDTO) throws RestException {
+//        return userService.editUser(id, userDTO);
+//    }
+//
+//
+//
+//    @PostMapping("/timeslots")//ПРОВЕРЕН
+//    public TimeSlot addTimeSlot(@RequestBody TimeSlotDTO timeSlotDTO) {
+//        try {
+//            return timeSlotService.addTimeSlot(timeSlotDTO);
+//        } catch (Exception e) {
+//            // В случае ошибки возвращаем null или пустое значение
+//            return null;
+//        }
+//    }
+//
+//    @PutMapping("/timeslots/{id}")//ПРОВЕРЕН
+//    public TimeSlot updateTimeSlot(@PathVariable Long id, @RequestBody TimeSlotDTO timeSlotDTO) {
+//        try {
+//            return timeSlotService.updateTimeSlot(id, timeSlotDTO);
+//        } catch (Exception e) {
+//
+//            return null;
+//        }
+//    }
+//
+//    @DeleteMapping("/timeslots/{id}")//проверен
+//    public void deleteTimeSlot(@PathVariable Long id) {
+//        try {
+//            timeSlotService.deleteTimeSlot(id);
+//        } catch (Exception e) {
+//            System.out.println("Error deleting time slot: ");
+//        }
+//    }
 
 
 

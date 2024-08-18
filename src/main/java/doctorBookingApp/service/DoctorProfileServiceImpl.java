@@ -6,7 +6,9 @@ import doctorBookingApp.entity.DoctorProfile;
 import doctorBookingApp.repository.DepartmentRepository;
 import doctorBookingApp.repository.DoctorProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +26,9 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
         this.departmentRepository = departmentRepository;
     }
 
+
     @Override
+    @Transactional
     public DoctorProfileDTO addDoctorProfile(DoctorProfileDTO doctorProfileDTO) {
         DoctorProfile doctorProfile = convertToEntity(doctorProfileDTO);
         doctorProfile = doctorProfileRepository.save(doctorProfile);
@@ -32,6 +36,7 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
     }
 
     @Override
+    @Transactional
     public DoctorProfileDTO updateDoctorProfile(Long id, DoctorProfileDTO doctorProfileDTO) {
         DoctorProfile existingDoctorProfile = doctorProfileRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("DoctorProfile not found"));
@@ -48,18 +53,25 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
     }
 
     @Override
+    @Transactional
     public void deleteDoctorProfile(Long id) {
         doctorProfileRepository.deleteById(id);
     }
 
+
+
     @Override
+    @Transactional
     public DoctorProfileDTO getDoctorProfileById(Long id) {
         DoctorProfile doctorProfile = doctorProfileRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("DoctorProfile not found"));
         return convertToDTO(doctorProfile);
     }
 
+
+    @PreAuthorize("hasRole('PATIENT') or hasRole('ADMIN')")
     @Override
+    @Transactional
     public List<DoctorProfileDTO> getAllDoctorProfiles() {
         return doctorProfileRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -73,6 +85,7 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
                 .collect(Collectors.toList());
     }*/
 
+    @Transactional
     public List<DoctorProfileDTO> findByDepartmentId(Long departmentId) {
         // Получаем список профилей врачей по идентификатору отдела
         List<DoctorProfile> doctorProfiles = doctorProfileRepository.findByDepartmentId(departmentId);

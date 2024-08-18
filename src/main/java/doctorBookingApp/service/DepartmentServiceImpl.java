@@ -2,10 +2,14 @@ package doctorBookingApp.service;
 
 import doctorBookingApp.dto.DepartmentDTO;
 import doctorBookingApp.entity.Department;
+import doctorBookingApp.exeption.RestException;
 import doctorBookingApp.repository.DepartmentRepository;
 import doctorBookingApp.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +25,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @Transactional
     public DepartmentDTO addDepartment(DepartmentDTO departmentDTO) {
         Department department = new Department();
         department.setTitleDepartment(departmentDTO.getTitleDepartment());
@@ -30,7 +35,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         return new DepartmentDTO(savedDepartment.getId(), savedDepartment.getTitleDepartment());
     }
 
+
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('PATIENT') or hasRole('ADMIN')")
     public List<DepartmentDTO> getAllDepartments() {
         // Получить все департаменты из базы данных
         List<Department> departments = departmentRepository.findAll();
@@ -41,4 +49,13 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .collect(Collectors.toList());
     }
 
+
+    @Override
+    @Transactional
+    public void deleteDepartmentById(Long departmentId) throws RestException {
+        if (!departmentRepository.existsById(departmentId)) {
+            throw new RestException(HttpStatus.NOT_FOUND, "Департамент с ID " + departmentId + " не найден.");
+        }
+        departmentRepository.deleteById(departmentId);
+    }
 }
