@@ -16,6 +16,10 @@ public class RestException extends RuntimeException {
         this.status = status;
     }
 
+    public RestException(String error, HttpStatus status) {
+        this.status = status;
+    }
+
 
     public HttpStatusCode getStatus() {
         return status;
