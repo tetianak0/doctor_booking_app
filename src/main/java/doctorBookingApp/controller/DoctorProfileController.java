@@ -2,6 +2,8 @@ package doctorBookingApp.controller;
 
 import doctorBookingApp.dto.DoctorProfileDTO;
 import doctorBookingApp.service.DoctorProfileService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +17,8 @@ import java.util.List;
 public class DoctorProfileController {
 
     private final DoctorProfileService doctorProfileService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DoctorProfileController.class);
 
     @Autowired
     public DoctorProfileController(DoctorProfileService doctorProfileService) {
