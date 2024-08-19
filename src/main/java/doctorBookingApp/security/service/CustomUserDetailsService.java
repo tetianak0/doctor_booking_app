@@ -1,6 +1,6 @@
 package doctorBookingApp.security.service;
 
-import doctorBookingApp.repository.UserRepository;
+import doctorBookingApp.repository.userRepositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.core.userdetails.UserDetails;
