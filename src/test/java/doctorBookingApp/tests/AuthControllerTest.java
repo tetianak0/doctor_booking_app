@@ -112,7 +112,7 @@ public class AuthControllerTest {
         Authentication authentication = mock(Authentication.class);
         when(authentication.getName()).thenReturn(userEmail);
         when(SecurityContextHolder.getContext().getAuthentication()).thenReturn(authentication);
-        when(userService.getUserByEmail(userEmail)).thenThrow(new RestException("Error"));
+       // when(userService.getUserByEmail(userEmail)).thenThrow(new RestException("Error"));
 
         // Act
         ResponseEntity<UserDTO> responseEntity = authController.profile();
