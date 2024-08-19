@@ -41,8 +41,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
 //                        .requestMatchers("/hallo/**").permitAll()
-                        // .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        // .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN") // добавила в контексте разделения функционала между ролями
                         .requestMatchers("/users/**").hasAnyRole("PATIENT", "ADMIN") // добавила в контексте разделения функционала между ролями
                         .requestMatchers("/auth-for-reset/**").permitAll()
