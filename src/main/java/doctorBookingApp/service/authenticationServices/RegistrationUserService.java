@@ -7,8 +7,8 @@ import doctorBookingApp.entity.User;
 import doctorBookingApp.entity.enums.Role;
 import doctorBookingApp.entity.enums.State;
 import doctorBookingApp.exeption.RestException;
-import doctorBookingApp.repository.ConfirmationCodeRepository;
-import doctorBookingApp.repository.UserRepository;
+import doctorBookingApp.repository.userRepositories.ConfirmationCodeRepository;
+import doctorBookingApp.repository.userRepositories.UserRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,6 @@ public class RegistrationUserService {
     private final ConfirmationCodeService confirmationCodeService;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
-
 
 
 // создает нового пользователя, сохраняет его, генерирует и сохраняет код подтверждения
@@ -74,8 +73,5 @@ public class RegistrationUserService {
         user.setState(State.CONFIRMED);
         userRepository.save(user);
     }
-
-
-
 
 }

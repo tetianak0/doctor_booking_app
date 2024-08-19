@@ -1,4 +1,4 @@
-package doctorBookingApp.service.registerServices;
+package doctorBookingApp.service.authenticationServices;
 
 
 import doctorBookingApp.entity.User;
@@ -35,8 +35,6 @@ public class MailService {
         helper.setText(textBody, true);
 
         mailSender.send(message);
-
-
     }
 
 

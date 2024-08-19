@@ -1,7 +1,7 @@
 package doctorBookingApp.service.authenticationServices;
 
 import doctorBookingApp.entity.User;
-import doctorBookingApp.repository.UserRepository;
+import doctorBookingApp.repository.userRepositories.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -69,8 +69,6 @@ public class ResetPasswordService {
 
         return true;
     }
-
-
 
 }
 
