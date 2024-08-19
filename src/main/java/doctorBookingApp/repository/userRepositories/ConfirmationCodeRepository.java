@@ -1,4 +1,4 @@
-package doctorBookingApp.repository;
+package doctorBookingApp.repository.userRepositories;
 
 import doctorBookingApp.entity.ConfirmationCode;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,9 +1,9 @@
 package doctorBookingApp.repository.bookingRepositories;
 
 import doctorBookingApp.entity.Appointment;
-import doctorBookingApp.entity.TimeSlot;
-import doctorBookingApp.entity.User;
-import doctorBookingApp.entity.enums.AppointmentStatus;
+//import doctorBookingApp.entity.TimeSlot;
+//import doctorBookingApp.entity.User;
+//import doctorBookingApp.entity.enums.AppointmentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package doctorBookingApp.repository;
+package doctorBookingApp.repository.userRepositories;
 
 import doctorBookingApp.entity.ConfirmationCode;
 import doctorBookingApp.entity.User;
@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
+
 
     Optional<User> findByEmail(String email);
 
@@ -33,7 +34,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
     Optional<User> findByTokenForResetPassword(String tokenForResetPassword);
 
     boolean existsByTokenForResetPassword(String tokenForResetPassword);
-
 
 
     Optional<User> findFirstByCodesContains(ConfirmationCode confirmationCode);
