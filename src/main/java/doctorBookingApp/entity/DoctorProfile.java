@@ -53,5 +53,6 @@ public class DoctorProfile {
         }
 
         public Department getDepartment() {
-                return department; }
+                return department;
+        }
 }

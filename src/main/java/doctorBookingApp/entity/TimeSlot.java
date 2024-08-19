@@ -41,5 +41,4 @@ public class TimeSlot {
     @Version
     private Long version;
 
-
 }
