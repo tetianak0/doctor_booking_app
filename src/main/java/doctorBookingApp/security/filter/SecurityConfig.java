@@ -45,12 +45,12 @@ public class SecurityConfig {
                         // .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN") // добавила в контексте разделения функционала между ролями
                         .requestMatchers("/users/**").hasAnyRole("PATIENT", "ADMIN") // добавила в контексте разделения функционала между ролями
+                        .requestMatchers("/auth-for-reset/**").permitAll()
                         .requestMatchers("/users-authentication/**").permitAll() // добавила в контексте разделения функционала между ролями
-                        .requestMatchers("/auth-for-reset/**").hasAnyRole("PATIENT", "ADMIN") // добавила в контексте разделения функционала между ролями
                         .requestMatchers("/timeslots/**").permitAll() // добавила в контексте разделения функционала между ролями
                         .requestMatchers("/appointments/**").hasAnyRole("PATIENT", "ADMIN") // добавила в контексте разделения функционала между ролями
-                        .requestMatchers("/departments/**").hasAnyRole("PATIENT", "ADMIN") // добавила в контексте разделения функционала между ролями
-                        .requestMatchers("/doctor-profiles/**").hasAnyRole("PATIENT", "ADMIN") // добавила в контексте разделения функционала между ролями
+                        .requestMatchers("/departments/**").permitAll()
+                        .requestMatchers("/doctor-profiles/**").permitAll()
 
                         // .requestMatchers(HttpMethod.GET,"/auth/profile").authenticated()                        .
 //                        .requestMatchers(HttpMethod.GET,"/departments/**").permitAll()
