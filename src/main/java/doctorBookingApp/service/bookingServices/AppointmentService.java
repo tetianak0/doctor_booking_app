@@ -89,7 +89,6 @@ public class AppointmentService {
     }
 
 
-
     // ПАЦИЕНТ ОТМЕНЯЕТ ЗАПИСЬ НА ПРИЕМ
     @PreAuthorize("hasRole('PATIENT') or hasRole('ADMIN')")
     @Transactional
