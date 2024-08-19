@@ -25,6 +25,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public DepartmentDTO addDepartment(DepartmentDTO departmentDTO) {
         Department department = new Department();
         department.setTitleDepartment(departmentDTO.getTitleDepartment());
@@ -37,7 +38,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('PATIENT') or hasRole('ADMIN')")
     public List<DepartmentDTO> getAllDepartments() {
         // Получить все департаменты из базы данных
         List<Department> departments = departmentRepository.findAll();
@@ -51,6 +51,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteDepartmentById(Long departmentId) throws RestException {
         if (!departmentRepository.existsById(departmentId)) {
             throw new RestException(HttpStatus.NOT_FOUND, "Департамент с ID " + departmentId + " не найден.");

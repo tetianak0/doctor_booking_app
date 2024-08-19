@@ -29,6 +29,7 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public DoctorProfileDTO addDoctorProfile(DoctorProfileDTO doctorProfileDTO) {
         DoctorProfile doctorProfile = convertToEntity(doctorProfileDTO);
         doctorProfile = doctorProfileRepository.save(doctorProfile);
@@ -37,6 +38,7 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public DoctorProfileDTO updateDoctorProfile(Long id, DoctorProfileDTO doctorProfileDTO) {
         DoctorProfile existingDoctorProfile = doctorProfileRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("DoctorProfile not found"));
@@ -55,6 +57,7 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteDoctorProfile(Long id) {
         doctorProfileRepository.deleteById(id);
     }
@@ -70,7 +73,7 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
     }
 
 
-    @PreAuthorize("hasRole('PATIENT') or hasRole('ADMIN')")
+
     @Override
     @Transactional
     public List<DoctorProfileDTO> getAllDoctorProfiles() {
