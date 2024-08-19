@@ -1,7 +1,6 @@
 package doctorBookingApp.service;
 
 import doctorBookingApp.dto.DepartmentDTO;
-import doctorBookingApp.exeption.RestException;
 
 import java.util.List;
 

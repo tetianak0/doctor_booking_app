@@ -52,6 +52,7 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
         return convertToDTO(existingDoctorProfile);
     }
 
+
     @Override
     @Transactional
     public void deleteDoctorProfile(Long id) {

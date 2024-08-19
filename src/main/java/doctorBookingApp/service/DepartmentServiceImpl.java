@@ -4,7 +4,6 @@ import doctorBookingApp.dto.DepartmentDTO;
 import doctorBookingApp.entity.Department;
 import doctorBookingApp.exeption.RestException;
 import doctorBookingApp.repository.DepartmentRepository;
-import doctorBookingApp.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;

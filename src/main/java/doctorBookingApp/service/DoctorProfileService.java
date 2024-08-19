@@ -4,6 +4,7 @@ import doctorBookingApp.dto.DoctorProfileDTO;
 
 import java.util.List;
 
+
 public interface DoctorProfileService {
     DoctorProfileDTO addDoctorProfile(DoctorProfileDTO doctorProfileDTO);
     DoctorProfileDTO updateDoctorProfile(Long id, DoctorProfileDTO doctorProfileDTO);
