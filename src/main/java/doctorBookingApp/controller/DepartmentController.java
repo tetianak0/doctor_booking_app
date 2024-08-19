@@ -27,6 +27,7 @@ public class DepartmentController {
     }
 
 
+
     @Operation(summary = "Add a new department", description = "Creates a new department entry")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully created department",
@@ -40,6 +41,7 @@ public class DepartmentController {
         DepartmentDTO createdDepartment = departmentService.addDepartment(departmentDTO);
         return ResponseEntity.ok(createdDepartment);
     }
+
 
 
     @GetMapping

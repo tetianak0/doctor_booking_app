@@ -3,7 +3,6 @@ package doctorBookingApp.controller.authenticationControllers;
 import doctorBookingApp.dto.usersDTO.NewUserDTO;
 import doctorBookingApp.exeption.RestException;
 import doctorBookingApp.service.authenticationServices.RegistrationUserService;
-import doctorBookingApp.service.userServices.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,8 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users-authentication")
 public class RegistrationControllers {
 
-    private final UserService userService;
-    private final RegistrationUserService registrationUserService;
+        private final RegistrationUserService registrationUserService;
 
 
     //РЕГИСТРАЦИЯ ПОЛЬЗОВАТЕЛЯ

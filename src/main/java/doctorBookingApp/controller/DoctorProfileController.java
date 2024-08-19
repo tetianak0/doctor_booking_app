@@ -3,7 +3,6 @@ package doctorBookingApp.controller;
 
 import doctorBookingApp.dto.DoctorProfileDTO;
 import doctorBookingApp.service.DoctorProfileService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

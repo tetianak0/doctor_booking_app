@@ -38,11 +38,11 @@
 
      })
 
-
      @PutMapping("/{userId}")
      public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) throws RestException {
          return ResponseEntity.ok(userService.editUser(userId, userDTO));
      }
+
 
 
      //ПОЛУЧЕНИЕ ИНФОРМАЦИИ О ПОЛЬЗОВАТЕЛЕ
@@ -98,11 +98,11 @@
          return ResponseEntity.ok(userService.getUserByPhoneNumber(phoneNumber));
      }
 
-
      @GetMapping
      public List<User> getAllUsers() {
          return userService.getAllUsers();
      }
+
 
 
      //УДАЛЕНИЕ ПОЛЬЗОВАТЕЛЯ
@@ -119,7 +119,6 @@
     public void deleteUserById(@PathVariable Long id) throws RestException {
         userService.deleteUserById(id);
     }
-
 
 
     @Operation(summary = "Удаление пользователя по email")

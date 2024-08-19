@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+
 //Контроллер обработки HTTP-запросов, которые приходят от пользователя для замены забытого пароля.
 
 @RestController
@@ -36,12 +37,12 @@ public class ResetPasswordController {
 
     })
 
-
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody PasswordResetRequestDTO requestDTO) throws MessagingException {
         resetPasswordService.sendResetPasswordLink(requestDTO.getEmail());
         return ResponseEntity.ok("Ссылка для восстановления пароля отправлена на вашу электронную почту.");
     }
+
 
 
     @Operation(summary = "Восстановления пароля по токену. Проверяет валидность токена для восстановления пароля и предлагает ввести новый пароль.")
@@ -55,7 +56,6 @@ public class ResetPasswordController {
 
     })
 
-
     @GetMapping("/reset-password")
     public ResponseEntity<String> showResetPasswordPage(@RequestParam("token") String tokenForPassword) {
 
@@ -68,6 +68,7 @@ public class ResetPasswordController {
     }
 
 
+
    @Operation(summary = "Подтверждение обновления пароля")
    @ApiResponses(value = {
            @ApiResponse(responseCode = "200", description = "Пароль успешно обновлен.",
@@ -78,7 +79,6 @@ public class ResetPasswordController {
                            schema = @Schema(implementation = StandardResponseDto.class)))
 
    })
-
 
  @PostMapping("/reset-password")
   public ResponseEntity<String> resetPassword(@RequestBody PasswordResetDTO passwordResetDTO) {
