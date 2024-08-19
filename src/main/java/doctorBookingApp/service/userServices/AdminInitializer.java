@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 //import java.time.LocalDate;
 
 
+
 //этот класс по сути выполняет сервисную функцию — инициализирует данные (создает администратора) при запуске приложения.
 @Component
 @AllArgsConstructor
