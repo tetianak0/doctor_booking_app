@@ -28,6 +28,7 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
+
 //МЕТОД ДЛЯ СОХРАНЕНИЯ АДМИНА для более гибкого управления, т.к. в дальнейшем планируется установить контроль замены пароля при первом входе
     public User saveAdmin(User admin) {
         admin.setPassword(passwordEncoder.encode(admin.getPassword())); //хешируем пароль админа
@@ -48,25 +49,25 @@ public class UserService {
 
 
     // ПОЛУЧЕНИЕ ПОЛЬЗОВАТЕЛЯ
-
+    @PreAuthorize("hasRole('ADMIN')")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     public UserDTO getUserById(Long userId) throws RestException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND, "Пользователь с ID " + userId + " не найден."));
         return UserDTO.from(user);
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     public UserDTO getUserByEmail(String email) throws RestException {
         return UserDTO.from(userRepository.findByEmail(email)
                 .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND, "Пользователь с email " + email + " не найден")));
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     public UserDTO getUserByPhoneNumber(String phoneNumber) throws RestException {
         return UserDTO.from(userRepository.findByPhoneNumber(phoneNumber)
                 .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND, "Пользователь с номером телефона " + phoneNumber + " не найден.")));
@@ -91,7 +92,7 @@ public class UserService {
 
 
     // УДАЛЕНИЕ ПОЛЬЗОВАТЕЛЯ
-
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public void deleteUserById(Long userId) throws RestException {
         if (!userRepository.existsById(userId)) {
@@ -109,6 +110,7 @@ public class UserService {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public void deleteUserByPhoneNumber(String phoneNumber) throws RestException {
         User user = userRepository.findByEmail(phoneNumber)
@@ -116,7 +118,6 @@ public class UserService {
         userRepository.deleteByPhoneNumber(user.getPhoneNumber());
 
     }
-
 
 
 }

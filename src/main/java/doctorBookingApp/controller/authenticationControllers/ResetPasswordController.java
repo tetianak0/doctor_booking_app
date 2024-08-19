@@ -12,8 +12,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 
 //Контроллер обработки HTTP-запросов, которые приходят от пользователя для замены забытого пароля.
@@ -55,17 +58,37 @@ public class ResetPasswordController {
 
     })
 
+//    @GetMapping("/reset-password")
+//    public ResponseEntity<String> showResetPasswordPage(@RequestParam("token") String tokenForPassword) {
+//
+//        boolean isValid = resetPasswordService.validateResetPasswordToken(tokenForPassword); // валидация токена
+//        if (isValid) {
+//            return ResponseEntity.ok("Введите новый пароль."); // возврат строки с текстом - и все: такой вариант нам не подходит
+//        }else {
+//            return ResponseEntity.badRequest().body("Неверный токен или срок его действия истек.");
+//        }
+//    }
+
     @GetMapping("/reset-password")
-    public ResponseEntity<String> showResetPasswordPage(@RequestParam("token") String tokenForPassword) {
+    public ResponseEntity<Void> showResetPasswordPage(@RequestParam("token") String tokenForPassword) { //тело ответа пустое
 
         boolean isValid = resetPasswordService.validateResetPasswordToken(tokenForPassword); // валидация токена
+
         if (isValid) {
-            return ResponseEntity.ok("Введите новый пароль.");
-        }else {
-            return ResponseEntity.badRequest().body("Неверный токен или срок его действия истек.");
+            // Перенаправляем на страницу ввода нового пароля
+            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http//localhost: ????/reset-password?token=" + tokenForPassword)).build(); //ВВЕСТИ ПУТЬ, КОТОРЫЙ У НАСТИ
+        } else {
+            return ResponseEntity.badRequest().build(); // Возвращаем ошибку, если токен недействителен
         }
     }
 
+
+
+//    @GetMapping("/test")
+//    public ResponseEntity<Void> test() {
+//        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/new-password?token=" + 123)).build();
+//
+//    }
 
 
    @Operation(summary = "Подтверждение обновления пароля")
