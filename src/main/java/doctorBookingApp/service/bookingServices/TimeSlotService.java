@@ -1,9 +1,9 @@
 package doctorBookingApp.service.bookingServices;
 
+
 import doctorBookingApp.dto.TimeSlotDTO;
 import doctorBookingApp.entity.TimeSlot;
 import doctorBookingApp.entity.enums.TypeOfInsurance;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

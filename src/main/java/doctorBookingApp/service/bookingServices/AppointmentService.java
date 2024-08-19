@@ -4,7 +4,7 @@ import doctorBookingApp.entity.Appointment;
 import doctorBookingApp.entity.TimeSlot;
 import doctorBookingApp.entity.User;
 import doctorBookingApp.entity.enums.AppointmentStatus;
-import doctorBookingApp.repository.UserRepository;
+import doctorBookingApp.repository.userRepositories.UserRepository;
 import doctorBookingApp.repository.bookingRepositories.AppointmentRepository;
 import doctorBookingApp.repository.bookingRepositories.TimeSlotRepository;
 import doctorBookingApp.service.authenticationServices.MailService;

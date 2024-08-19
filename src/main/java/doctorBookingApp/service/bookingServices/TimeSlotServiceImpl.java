@@ -50,22 +50,22 @@ public class TimeSlotServiceImpl implements TimeSlotService {
         return timeSlotRepository.findById(timeSlotId)
                 .map(timeSlot -> {
                     if (Boolean.TRUE.equals(timeSlot.getIsBooked())) {
-                        throw new IllegalStateException("Временной слот уже забронирован.");
+                        throw new IllegalStateException("Das Zeitfenster ist bereits reserviert."); //Временной слот уже забронирован
                     }
 
                     timeSlot.setIsBooked(true);
                     return timeSlotRepository.save(timeSlot);
                 });
 
-
     }
+
 
     //ОТКАЗ ОТ ЗАБРОНИРОВАННОГО ВРЕМЕННОГО СЛОТА
     @PreAuthorize("hasRole('PATIENT')")
     @Transactional
     public void cancelBooking(Long timeSlotId) {
         TimeSlot timeSlot = timeSlotRepository.findById(timeSlotId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Временной слот не найден"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Das Zeitfenster wurde nicht gefunden.")); //Временной слот не найден
 
         timeSlot.setIsBooked(false);
         timeSlotRepository.save(timeSlot);
@@ -115,8 +115,6 @@ public class TimeSlotServiceImpl implements TimeSlotService {
             // Обработка конфликта версий, если вдруг админ начнет редактировать тайм-слот, который в этот момент бронирует пациент
             throw new ConflictException("TimeSlot was modified by another transaction");
         }
-
-
 
     }
 
