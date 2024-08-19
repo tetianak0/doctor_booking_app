@@ -12,7 +12,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -63,8 +62,8 @@ public class TimeSlotController {
             return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/auth")).build();
         }
         timeSlotService.bookingTimeSlot(id);
-        return ResponseEntity.ok().body("Дата и время приема успешно забронированы. Если Вы уверены в своем выборе, пожалуйста, нажмите кнопку ПОДТВЕРДИТЬ.");
-    }
+        return ResponseEntity.ok().body("Datum und Uhrzeit des Termins wurden erfolgreich reserviert. Wenn Sie sich Ihrer Wahl sicher sind, klicken Sie bitte auf die Schaltfläche BESTÄTIGEN.");
+    }                                   //Дата и время приема успешно забронированы. Если Вы уверены в своем выборе, пожалуйста, нажмите кнопку ПОДТВЕРДИТЬ
 
 
 
@@ -82,7 +81,7 @@ public class TimeSlotController {
     @PostMapping("/{id}/cancel")
     public ResponseEntity<?> cancelBooking(@PathVariable Long id) {
         timeSlotService.cancelBooking(id);
-        return ResponseEntity.ok().body("Бронирование отменено.");
+        return ResponseEntity.ok().body("Die Buchung wurde storniert."); //Бронирование отменено
     }
 
 

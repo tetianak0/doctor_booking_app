@@ -3,7 +3,6 @@ package doctorBookingApp.controller.userControllers;
 //import doctorBookingApp.dto.TimeSlotDTO;
 //import doctorBookingApp.dto.usersDTO.UserDTO;
 //import doctorBookingApp.entity.TimeSlot;
-//import doctorBookingApp.exeption.RestException;
 //import doctorBookingApp.service.bookingServices.TimeSlotService;
 //import doctorBookingApp.service.userServices.UserService;
 //import org.springframework.beans.factory.annotation.Autowired;

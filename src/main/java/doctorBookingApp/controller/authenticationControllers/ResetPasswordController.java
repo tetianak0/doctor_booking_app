@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-
 //Контроллер обработки HTTP-запросов, которые приходят от пользователя для замены забытого пароля.
 
 @RestController

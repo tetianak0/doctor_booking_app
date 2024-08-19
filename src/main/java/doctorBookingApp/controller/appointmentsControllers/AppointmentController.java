@@ -72,11 +72,11 @@ public class AppointmentController {
         String email = userDetails.getUsername();
 
         TimeSlot timeSlot = timeSlotService.bookingTimeSlot(timeSlotId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Временной слот не найден."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Der Zeitfenster wurde nicht gefunden.")); //Временной слот не найден
 
         appointmentService.confirmAppointment(timeSlot, email);
 
-        return ResponseEntity.ok().body("Запись на приём успешно подтверждена.");
+        return ResponseEntity.ok().body("Der Termin wurde erfolgreich bestätigt."); //Запись на приём успешно подтверждена
     }
 
 
@@ -103,7 +103,7 @@ public class AppointmentController {
         String email = userDetails.getUsername();
         appointmentService.cancelAppointment(id, email);
 
-        return ResponseEntity.ok().body("Запись успешно отменена.");
+        return ResponseEntity.ok().body("Der Termin wurde erfolgreich storniert."); //Запись на прием успешно отменена
     }
 
 }

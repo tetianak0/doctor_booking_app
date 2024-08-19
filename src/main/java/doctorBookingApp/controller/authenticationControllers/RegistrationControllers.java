@@ -25,7 +25,7 @@ public class RegistrationControllers {
 
     @Operation(summary = "Регистрация нового пользователя")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Регистрация практически завершена, проверьте свою электронную почту.",
+            @ApiResponse(responseCode = "200", description = "Регистрация практически завершена. Проверьте свою электронную почту.",
                     content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "409", description = "Пользователь с таким email уже существует",
                     content = @Content(mediaType = "application/json"))
@@ -34,17 +34,17 @@ public class RegistrationControllers {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody NewUserDTO newUser) throws RestException, MessagingException {
         registrationUserService.registrationUser(newUser);
-        return ResponseEntity.ok("Регистрация практически завершена. Проверьте свой электронный почтовый ящик на наличие кода подтверждения.");
-    }
+        return ResponseEntity.ok("Die Registrierung ist fast abgeschlossen. Bitte überprüfen Sie Ihr E-Mail-Postfach auf den Bestätigungscode.");
+    }                                 //Регистрация практически завершена. Проверьте свой электронный почтовый ящик на наличие кода подтверждения.
 
 
     @GetMapping("/confirm")
     public ResponseEntity<?> confirmUser(@RequestParam String confirmationCode) {
         try {
             registrationUserService.confirmUser(confirmationCode);
-            return ResponseEntity.ok("Пользователь успешно подтвержден");
+            return ResponseEntity.ok("Der Benutzer wurde erfolgreich bestätigt.");  //Пользователь успешно подтвержден
         } catch (RestException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Код не найден или срок его действия истек");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Der Code wurde nicht gefunden oder ist abgelaufen."); //Код не найден или срок его действия истек
         }
 
     }

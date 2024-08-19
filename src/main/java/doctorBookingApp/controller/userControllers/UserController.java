@@ -4,7 +4,6 @@
  import doctorBookingApp.dto.usersDTO.UserDTO;
  import doctorBookingApp.entity.User;
  import doctorBookingApp.exeption.RestException;
-
  import doctorBookingApp.service.userServices.UserService;
  import io.swagger.v3.oas.annotations.Operation;
  import io.swagger.v3.oas.annotations.media.Content;
