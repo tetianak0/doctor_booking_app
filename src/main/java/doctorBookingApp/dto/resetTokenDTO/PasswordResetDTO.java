@@ -15,4 +15,5 @@ public class PasswordResetDTO {
 
     private String tokenForResetPassword;
     private String newPassword;
+    private String status;
 }
