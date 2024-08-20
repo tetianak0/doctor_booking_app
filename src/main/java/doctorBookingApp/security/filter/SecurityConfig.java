@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 //import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,7 +45,8 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN") // добавила в контексте разделения функционала между ролями
-                        .requestMatchers("/users/**").hasAnyRole("PATIENT", "ADMIN") // добавила в контексте разделения функционала между ролями
+                        .requestMatchers("/users/**").permitAll() // добавила в контексте разделения функционала между ролями
+                        .requestMatchers(HttpMethod.GET,"/auth/login").permitAll()
                         .requestMatchers("/auth-for-reset/**").permitAll()
                         .requestMatchers("/users-authentication/**").permitAll() // добавила в контексте разделения функционала между ролями
                         .requestMatchers("/timeslots/**").permitAll() // добавила в контексте разделения функционала между ролями
@@ -56,19 +58,19 @@ public class SecurityConfig {
 //                        .requestMatchers(HttpMethod.GET,"/departments/**").permitAll()
 //                        .requestMatchers(HttpMethod.GET,"/doctor-profiles/**").permitAll()//
 
-                        //.anyRequest().permitAll())
-                      .anyRequest().authenticated())
+                       .anyRequest().permitAll())
+//                      .anyRequest().authenticated())
 
 
                 //конфигурация формы входа. При входе пользователь будет перенаправлен на /timeslots.
                 // НО ВОЗМОЖНО, ЧТО ЭТО ИЗЛИШНЕ И ФОРМУ СТОИТ СДЕЛАТЬ УНИВЕРСАЛЬНОЙ
-                .formLogin(form -> form
-                        .loginPage("/auth") // добавила для APPOINTMENT-a
-                        .defaultSuccessUrl("/timeslots", true) // добавила для APPOINTMENT-a
-                        .permitAll())
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/timeslots") // добавила для APPOINTMENT-a
-                        .permitAll())
+//                .formLogin(form -> form
+//                        .loginPage("/auth") // добавила для APPOINTMENT-a
+//                        .defaultSuccessUrl("/timeslots", true) // добавила для APPOINTMENT-a
+//                        .permitAll())
+//                .logout(logout -> logout
+//                        .logoutSuccessUrl("/timeslots") // добавила для APPOINTMENT-a
+//                        .permitAll())
 
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
