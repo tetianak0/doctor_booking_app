@@ -20,6 +20,10 @@ public class RestException extends RuntimeException {
         this.status = status;
     }
 
+    public RestException(String userAlreadyExists) {
+        this.status = HttpStatus.CONFLICT;
+    }
+
 
     public HttpStatusCode getStatus() {
         return status;
