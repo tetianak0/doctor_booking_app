@@ -3,9 +3,11 @@ package doctorBookingApp.service;
 import doctorBookingApp.dto.DoctorProfileDTO;
 import doctorBookingApp.entity.Department;
 import doctorBookingApp.entity.DoctorProfile;
+import doctorBookingApp.exeption.RestException;
 import doctorBookingApp.repository.DepartmentRepository;
 import doctorBookingApp.repository.DoctorProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,15 +65,13 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
     }
 
 
-
     @Override
     @Transactional
-    public DoctorProfileDTO getDoctorProfileById(Long id) {
+    public DoctorProfileDTO getDoctorProfileById(Long id) throws RestException {
         DoctorProfile doctorProfile = doctorProfileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("DoctorProfile not found"));
-        return convertToDTO(doctorProfile);
+                .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND, "DoctorProfile not found"));
+        return DoctorProfileDTO.from(doctorProfile);
     }
-
 
 
     @Override
