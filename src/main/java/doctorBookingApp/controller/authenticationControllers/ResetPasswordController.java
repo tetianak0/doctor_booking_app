@@ -103,16 +103,16 @@ public class ResetPasswordController {
    })
 
  @PostMapping("/reset-password")
-  public ResponseEntity<String> resetPassword(@RequestBody PasswordResetDTO passwordResetDTO) {
+   public ResponseEntity<PasswordResetDTO> resetPassword(@RequestBody PasswordResetDTO passwordResetDTO) {
 
        boolean isReset = resetPasswordService.updatePassword(passwordResetDTO.getTokenForResetPassword(), passwordResetDTO.getNewPassword());
 
        if (isReset) {
-           return ResponseEntity.ok("Пароль успешно обновлен.");
+           return ResponseEntity.ok(passwordResetDTO);
        } else {
-           return ResponseEntity.badRequest().body("Ошибка при обновлении пароля.");
+           passwordResetDTO.setStatus("Ошибка при обновлении пароля.");
+           return ResponseEntity.badRequest().body(passwordResetDTO);
        }
-
    }
 }
 
