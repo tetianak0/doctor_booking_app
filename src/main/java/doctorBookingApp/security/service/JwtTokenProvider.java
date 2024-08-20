@@ -1,6 +1,4 @@
 package doctorBookingApp.security.service;
-
-
 import doctorBookingApp.entity.enums.Role;
 import doctorBookingApp.exeption.InvalidJwtException;
 import io.jsonwebtoken.Claims;
@@ -10,7 +8,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -25,19 +22,21 @@ public class JwtTokenProvider {
     @Value("${jwt.lifetime}")
     private long jwtLifeTime;
 
-    public String createToken(String userName, Role role) {
+    public String createToken(String userName, Role role){
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtLifeTime);
 
-        Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+        Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+
 
         return Jwts.builder()
                 .setSubject(userName)
-                .claim("role", role.name()) // Добавление роли в токен
+                .claim("role", role.name())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+
     }
 
 
@@ -70,16 +69,16 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    public Role getRoleFromJWT(String token) {
-        Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
-
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
-        String roleString = claims.get("role", String.class);
-        return Role.valueOf(roleString); // Преобразование строки в enum
-    }
+//    public Role getRoleFromJWT(String token) {
+//        Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+//
+//        Claims claims = Jwts.parserBuilder()
+//                .setSigningKey(key)
+//                .build()
+//                .parseClaimsJws(token)
+//                .getBody();
+//
+//        String roleString = claims.get("role", String.class);
+//        return Role.valueOf(roleString); // Преобразование строки в enum
+//    }
 }
