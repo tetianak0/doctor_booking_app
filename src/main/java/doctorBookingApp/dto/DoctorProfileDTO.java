@@ -1,5 +1,8 @@
 package doctorBookingApp.dto;
 
+import doctorBookingApp.dto.usersDTO.UserDTO;
+import doctorBookingApp.entity.DoctorProfile;
+import doctorBookingApp.entity.User;
 import lombok.*;
 import jakarta.validation.constraints.*;
 
@@ -36,4 +39,20 @@ public class DoctorProfileDTO {
     private Integer experienceYears;
 
     private Integer reviewId; // Это поле не обязательно для заполнения, потому нет валидации.
+//    private Long departmentId;
+//    private String departmentTitleDepartment;
+
+
+    public static DoctorProfileDTO from(DoctorProfile doctorProfile) {
+        return DoctorProfileDTO.builder()
+                .id(doctorProfile.getId())
+                .firstName(doctorProfile.getFirstName())
+                .lastName(doctorProfile.getLastName())
+                .departmentId(doctorProfile.getDepartment() != null ? doctorProfile.getDepartment().getId() : null)
+                .specialization(doctorProfile.getSpecialization())
+                .experienceYears(doctorProfile.getExperienceYears())
+                .build();
+
+    }
+
 }
