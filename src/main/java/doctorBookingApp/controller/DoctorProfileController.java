@@ -22,7 +22,7 @@ public class DoctorProfileController {
 
     private final DoctorProfileService doctorProfileService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DoctorProfileController.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(DoctorProfileController.class);
 
     @Autowired
     public DoctorProfileController(DoctorProfileService doctorProfileService) {
