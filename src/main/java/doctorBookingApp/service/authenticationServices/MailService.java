@@ -20,7 +20,7 @@ public class MailService {
 
     public void sendConfirmationEmailWithHTML(User user, String confirmationCode) throws MessagingException {
 
-        String confirmationUrl = "http://localhost:8080/api/users/confirm?confirmationCode=" + confirmationCode;
+        String confirmationUrl = "http://localhost:8080/api/users-authentication/confirm?confirmationCode=" + confirmationCode;
 
         String subject = "Registration Confirmation Code";
         String textBody = "<p> Click the link below to confirm email:</p>" +
@@ -49,7 +49,6 @@ public class MailService {
         mailMessage.setText(textBody);
         mailSender.send(mailMessage);
     }
-
 
 }
 
