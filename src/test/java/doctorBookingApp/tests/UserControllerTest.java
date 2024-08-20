@@ -1,13 +1,8 @@
 package doctorBookingApp.tests;
-
 import doctorBookingApp.controller.userControllers.UserController;
-import doctorBookingApp.dto.usersDTO.NewUserDTO;
 import doctorBookingApp.dto.usersDTO.UserDTO;
 import doctorBookingApp.exeption.RestException;
-import doctorBookingApp.service.authenticationServices.RegistrationUserService;
-//import doctorBookingApp.controller.authenticationControllers.RegistrationControllers;
 import doctorBookingApp.service.userServices.UserService;
-import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,17 +11,17 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-public class UserControllerTest {
+class UserControllerTest {
 
     @Mock
     private UserService userService;
-
-    @Mock
-    private RegistrationUserService registrationUserService;
 
     @InjectMocks
     private UserController userController;
@@ -36,49 +31,78 @@ public class UserControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    // Тест для регистрации пользователя
     @Test
-    void registerUserTest() throws RestException, MessagingException {
-        doNothing().when(registrationUserService).registrationUser(any(NewUserDTO.class));
+    void testGetUserById() throws RestException {
+        // Arrange
+        Long userId = 1L;
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(userId);
+        userDTO.setEmail("user@example.com");
 
-        //ResponseEntity<String> response = userController.registerUser(new NewUserDTO()); //методы управления регистрацией в специальном контроллере
+        when(userService.getUserById(anyLong())).thenReturn(userDTO);
 
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        assertEquals("Регистрация практически завершена. Проверьте свой электронный почтовый ящик на наличие кода подтверждения.", response.getBody());
+        // Act
+        ResponseEntity<UserDTO> responseEntity = userController.getUserById(userId);
+
+        // Assert
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(userDTO, responseEntity.getBody());
     }
 
-    // Тест для обработки RestException при регистрации
-//    @Test
-//    void registerUserExceptionTest() throws RestException, MessagingException {
-//        doThrow(new RestException("Пользователь с таким email уже существует")).when(registrationUserService).registrationUser(any(NewUserDTO.class));
-//
-//        //ResponseEntity<String> response = userController.registerUser(new NewUserDTO()); //методы управления регистрацией в специальном контроллере
-//
-////        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-////        assertEquals("Пользователь с таким email уже существует", response.getBody());
-//    }
-
-    // Тест для получения пользователя по ID
     @Test
-    void getUserByIdTest() throws RestException {
-        UserDTO mockUser = new UserDTO();
-        mockUser.setId(1L);
-        when(userService.getUserById(1L)).thenReturn(mockUser);
+    void testGetUserByIdNotFound() throws RestException {
+        // Arrange
+        Long userId = 1L;
 
-        ResponseEntity<UserDTO> response = userController.getUserById(1L);
+        when(userService.getUserById(anyLong())).thenReturn(null);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(mockUser, response.getBody());
+        // Act
+        ResponseEntity<UserDTO> responseEntity = userController.getUserById(userId);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
-    // Тест для обработки RestException при получении пользователя по ID
-//    @Test
-//    void getUserByIdNotFoundTest() throws RestException {
-//        when(userService.getUserById(1L)).thenThrow(new RestException("Пользователь не найден"));
-//
-//        ResponseEntity<UserDTO> response = userController.getUserById(1L);
-//
-//        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-//        assertEquals("Пользователь не найден", response.getBody());
-//    }
+    @Test
+    void testGetUserByEmail() throws RestException {
+        // Arrange
+        String email = "user@example.com";
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail(email);
+
+        when(userService.getUserByEmail(anyString())).thenReturn(userDTO);
+
+        // Act
+        ResponseEntity<UserDTO> responseEntity = userController.getUserByEmail(email);
+
+        // Assert
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(userDTO, responseEntity.getBody());
+    }
+
+    @Test
+    void testGetUserByEmailNotFound() throws RestException {
+        // Arrange
+        String email = "user@example.com";
+
+        when(userService.getUserByEmail(anyString())).thenReturn(null);
+
+        // Act
+        ResponseEntity<UserDTO> responseEntity = userController.getUserByEmail(email);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void testDeleteUserById() {
+        // Arrange
+        Long userId = 1L;
+
+        // Act & Assert
+        assertDoesNotThrow(() -> userController.deleteUserById(userId));
+
+        // Verify
+        verify(userService).deleteUserById(userId);
+    }
 }
