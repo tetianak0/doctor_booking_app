@@ -1,9 +1,11 @@
 package doctorBookingApp.controller.appointmentsControllers;
 
+import doctorBookingApp.dto.usersDTO.UserDTO;
 import doctorBookingApp.entity.Appointment;
 import doctorBookingApp.entity.TimeSlot;
 import doctorBookingApp.service.bookingServices.AppointmentService;
 import doctorBookingApp.service.bookingServices.TimeSlotService;
+import doctorBookingApp.service.userServices.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,11 +26,13 @@ public class AppointmentController {
 
     private final TimeSlotService timeSlotService;
     private final AppointmentService appointmentService;
+    private final UserService userService;
 
 
-    public AppointmentController(TimeSlotService timeSlotService, AppointmentService appointmentService) {
+    public AppointmentController(TimeSlotService timeSlotService, AppointmentService appointmentService, UserService userService) {
         this.timeSlotService = timeSlotService;
         this.appointmentService = appointmentService;
+        this.userService = userService;
     }
 
 
@@ -65,18 +70,21 @@ public class AppointmentController {
                     content = @Content(mediaType = "application/json"))
     })
 
-    @PostMapping("/confirm")
-    public ResponseEntity<?> confirmAppointment(@RequestParam Long timeSlotId, Authentication authentication) {
+    @PostMapping("/{timeSlotId}/confirm")
+    public ResponseEntity<UserDTO> confirmAppointment(@PathVariable Long timeSlotId) {
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String email = userDetails.getUsername();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        System.out.println(userEmail);
+        UserDTO userDTO = userService.getUserByEmail(userEmail);
+
 
         TimeSlot timeSlot = timeSlotService.bookingTimeSlot(timeSlotId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Der Zeitfenster wurde nicht gefunden.")); //Временной слот не найден
 
-        appointmentService.confirmAppointment(timeSlot, email);
+        appointmentService.confirmAppointment(timeSlot, userDTO.getEmail());
 
-        return ResponseEntity.ok().body("Der Termin wurde erfolgreich bestätigt."); //Запись на приём успешно подтверждена
+        return ResponseEntity.ok().body(userDTO); //Запись на приём успешно подтверждена
     }
 
 
