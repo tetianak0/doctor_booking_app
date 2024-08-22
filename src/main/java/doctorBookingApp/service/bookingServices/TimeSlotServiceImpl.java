@@ -1,6 +1,4 @@
 package doctorBookingApp.service.bookingServices;
-
-
 import doctorBookingApp.dto.TimeSlotDTO;
 import doctorBookingApp.entity.DoctorProfile;
 import doctorBookingApp.entity.TimeSlot;
@@ -15,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -124,13 +121,13 @@ public class TimeSlotServiceImpl implements TimeSlotService {
         timeSlotRepository.deleteById(id);
     }
 
-
     @Override
-    public List<TimeSlot> getTimeSlotsByDoctor(TimeSlotDTO timeSlotDTO) {
-        Long doctorId = timeSlotDTO.getDoctorId();
-//        Boolean isBooked = timeSlotDTO.getIsBooked();
-        return timeSlotRepository.findByDoctorId(doctorId);
-
+    public List<TimeSlot> findByDoctorIdAndInsurance(Long doctorId, TypeOfInsurance insurance) {
+        if (insurance != null) {
+            return timeSlotRepository.findByDoctorIdAndInsuranceAndIsBookedFalse(doctorId, insurance);
+        } else {
+            return timeSlotRepository.findByDoctorIdAndIsBookedFalse(doctorId);
+        }
     }
 
     @Override
@@ -145,7 +142,6 @@ public class TimeSlotServiceImpl implements TimeSlotService {
 
     @Override
     public Optional<TimeSlot> getTimeSlotById(Long id) {
-
         return timeSlotRepository.findById(id);
     }
 }
