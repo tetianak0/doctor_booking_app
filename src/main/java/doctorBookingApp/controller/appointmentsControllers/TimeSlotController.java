@@ -149,14 +149,8 @@ public class TimeSlotController {
             @RequestParam(required = false) TypeOfInsurance insurance) {
 
         try {
-            // Создаем объект DTO для передачи параметров в сервис
-            TimeSlotDTO timeSlotDTO = new TimeSlotDTO();
-            timeSlotDTO.setDoctorId(doctorId);
-            timeSlotDTO.setInsurance(insurance);
-
-
             // Получаем список временных слотов от сервиса
-            List<TimeSlot> timeSlots = timeSlotService.getTimeSlotsByDoctor(timeSlotDTO);
+            List<TimeSlot> timeSlots = timeSlotService.findByDoctorIdAndInsurance(doctorId, insurance);
 
             // Возвращаем список временных слотов в успешном ответе
             return ResponseEntity.ok(timeSlots);
@@ -165,14 +159,6 @@ public class TimeSlotController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-//
-//    @GetMapping("/doctor/{doctorId}")
-//    public List<TimeSlot> getTimeSlotsByDoctor(@PathVariable Long doctorId, TypeOfInsurance insurance) {
-//        TimeSlotDTO timeSlotDTO = new TimeSlotDTO();
-//        timeSlotDTO.setDoctorId(doctorId);
-//        return timeSlotService.getTimeSlotsByDoctor(timeSlotDTO);
-//    }
-
 
 //    @GetMapping
 //    public List<TimeSlot> getAvailableTimeSlots() {
