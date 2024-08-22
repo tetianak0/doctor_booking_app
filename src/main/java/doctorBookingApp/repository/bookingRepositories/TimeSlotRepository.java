@@ -20,9 +20,9 @@ public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
 
     List<TimeSlot> findByIsBookedFalse();
 
-    List<TimeSlot> findByDoctorId(Long doctorId);  // Поиск по doctorId
-
-    List<TimeSlot> findByDoctorIdAndInsurance(Long doctorId, TypeOfInsurance insurance); // Поиск по doctorId и insurance
+//    List<TimeSlot> findByDoctorId(Long doctorId);  // Поиск по doctorId
+//
+//    List<TimeSlot> findByDoctorIdAndInsurance(Long doctorId, TypeOfInsurance insurance); // Поиск по doctorId и insurance
 
     List<TimeSlot> findByInsurance(TypeOfInsurance insurance);
 
