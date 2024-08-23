@@ -47,7 +47,7 @@ public class TimeSlotServiceImpl implements TimeSlotService {
         return timeSlotRepository.findById(timeSlotId)
                 .map(timeSlot -> {
                     if (Boolean.TRUE.equals(timeSlot.getIsBooked())) {
-                        throw new IllegalStateException("Das Zeitfenster ist bereits reserviert."); //Временной слот уже забронирован
+                        tthrow new IllegalStateException("Das Zeitfenster ist bereits reserviert."); //Временной слот уже забронирован
                     }
 
                     timeSlot.setIsBooked(true);
