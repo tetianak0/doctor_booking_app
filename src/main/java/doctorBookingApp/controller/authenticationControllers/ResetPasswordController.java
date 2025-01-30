@@ -76,7 +76,7 @@ public class ResetPasswordController {
 
         if (isValid) {
             // Перенаправляем на страницу ввода нового пароля
-            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http//localhost: ????/reset-password?token=" + tokenForPassword)).build(); //ВВЕСТИ ПУТЬ, КОТОРЫЙ У НАСТИ
+            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http//localhost:5173/reset-password?token=" + tokenForPassword)).build(); //ВВЕСТИ ПУТЬ, КОТОРЫЙ У НАСТИ
         } else {
             return ResponseEntity.badRequest().build(); // Возвращаем ошибку, если токен недействителен
         }

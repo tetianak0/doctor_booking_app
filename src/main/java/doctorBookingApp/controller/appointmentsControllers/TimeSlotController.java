@@ -65,9 +65,9 @@ public class TimeSlotController {
 
         // Проверка на аутентификацию пользователя
         if (principal == null) {
+
             return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/auth")).build();
         }
-
         timeSlotService.bookingTimeSlot(id);
         return ResponseEntity.ok().body("Datum und Uhrzeit des Termins wurden erfolgreich reserviert. Wenn Sie sich Ihrer Wahl sicher sind, klicken Sie bitte auf die Schaltfläche BESTÄTIGEN.");
     }                                   //Дата и время приема успешно забронированы. Если Вы уверены в своем выборе, пожалуйста, нажмите кнопку ПОДТВЕРДИТЬ
@@ -144,40 +144,11 @@ public class TimeSlotController {
     })
 
     @GetMapping("/doctor/{doctorId}")
-    public ResponseEntity<List<TimeSlot>> getTimeSlotsByDoctor(
-            @PathVariable Long doctorId,
-            @RequestParam(required = false) TypeOfInsurance insurance) {
-
-        try {
-            // Создаем объект DTO для передачи параметров в сервис
-            TimeSlotDTO timeSlotDTO = new TimeSlotDTO();
-            timeSlotDTO.setDoctorId(doctorId);
-            timeSlotDTO.setInsurance(insurance);
-
-
-            // Получаем список временных слотов от сервиса
-            List<TimeSlot> timeSlots = timeSlotService.getTimeSlotsByDoctor(timeSlotDTO);
-
-            // Возвращаем список временных слотов в успешном ответе
-            return ResponseEntity.ok(timeSlots);
-        } catch (Exception e) {
-            // Обработка ошибок и возврат соответствующего ответа
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public List<TimeSlot> getTimeSlotsByDoctor(@PathVariable Long doctorId) {
+        TimeSlotDTO timeSlotDTO = new TimeSlotDTO();
+        timeSlotDTO.setDoctorId(doctorId);
+        return timeSlotService.getTimeSlotsByDoctor(timeSlotDTO);
     }
-//
-//    @GetMapping("/doctor/{doctorId}")
-//    public List<TimeSlot> getTimeSlotsByDoctor(@PathVariable Long doctorId, TypeOfInsurance insurance) {
-//        TimeSlotDTO timeSlotDTO = new TimeSlotDTO();
-//        timeSlotDTO.setDoctorId(doctorId);
-//        return timeSlotService.getTimeSlotsByDoctor(timeSlotDTO);
-//    }
-
-
-//    @GetMapping
-//    public List<TimeSlot> getAvailableTimeSlots() {
-//        return timeSlotService.getAvailableTimeSlots();
-//    }
 
 
     @Operation(summary = "Retrieve time slots by date and time")

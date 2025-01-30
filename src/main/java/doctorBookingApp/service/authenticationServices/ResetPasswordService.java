@@ -26,7 +26,7 @@ public class ResetPasswordService {
     @PreAuthorize("hasRole('PATIENT') or hasRole('ADMIN')")
     public void sendResetPasswordLink(String email) throws MessagingException {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Пользователь с таким email не найден"));
+               .orElseThrow(() -> new RuntimeException("Ein Benutzer mit dieser E-Mail-Adresse wurde nicht gefunden.")); //Пользователь с таким email не найден
 
         String tokenForPassword = UUID.randomUUID().toString();
         user.setTokenForResetPassword(tokenForPassword);

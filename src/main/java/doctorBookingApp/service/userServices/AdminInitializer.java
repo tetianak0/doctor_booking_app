@@ -23,7 +23,7 @@ public class AdminInitializer implements CommandLineRunner {
         if (!userService.existsByEmail("doctorbooking80@gmail.com")) {
             User admin = new User();
             admin.setEmail("doctorbooking80@gmail.com");
-            admin.setPassword("admin_password");
+            admin.setPassword("Admin+password=2");
             admin.setFirstname("ADMIN");
             admin.setSurName("Adminovich");
             admin.setBirthDate("1980-01-01");

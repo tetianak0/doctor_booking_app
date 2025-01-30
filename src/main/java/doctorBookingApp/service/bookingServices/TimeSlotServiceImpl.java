@@ -128,9 +128,7 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     @Override
     public List<TimeSlot> getTimeSlotsByDoctor(TimeSlotDTO timeSlotDTO) {
         Long doctorId = timeSlotDTO.getDoctorId();
-        Boolean isBooked = timeSlotDTO.getIsBooked();
         return timeSlotRepository.findByDoctorId(doctorId);
-
     }
 
     @Override
